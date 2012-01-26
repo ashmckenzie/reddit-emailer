@@ -1,0 +1,10 @@
+body {
+  text-align: center;
+}
+
+img.reddit-story {
+  background-color: #eee;
+  border: 1px solid #ddd;
+  padding: 6px;
+  width: 400px;
+}
