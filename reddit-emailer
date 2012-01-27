@@ -13,8 +13,12 @@ opts = Trollop::options do
   opt :verbose, "Verbose mode"
   opt :debug, "Verbose mode"
   opt :dry, "Dry mode (don't send email)"
-  opt :email, "Email addresses to send to", :type => :string, :required => true
+  opt :email, "Email addresses to send to", :type => :string
+  opt :subreddit, "Subreddit to trawl", :type => :string, :required => true
+  opt :limit, "Limit the number of images to display", :type => :integer, :default => 5
 end
+
+Trollop::die :email, "must be provided if not running dry mode" unless opts[:dry]
 
 $VERBOSE_ON = opts[:verbose] ? true : false
 $DEBUG_ON = opts[:debug] ? true : false
@@ -27,4 +31,4 @@ $logger.level = :debug if $DEBUG_ON
 
 debug_log(opts)
 
-RedditEmailer.new(opts[:email].split(','))
+RedditEmailer.new(opts[:subreddit], opts[:limit], opts[:email] ? opts[:email].split(',') : [])

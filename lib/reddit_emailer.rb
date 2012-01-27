@@ -5,17 +5,17 @@ require_relative 'reddit_story'
 
 class RedditEmailer
 
-  MAX_STORIES = 5
-  URL = 'http://www.reddit.com/r/aww.json'
+  URL = 'http://www.reddit.com/r/%{subreddit}.json'
 
   EMAIL_FROM = 'Ash McKenzie <ash@greeworm.com.au>'
-  EMAIL_SUBJECT = "Top 5 Reddit Aww's for #{Time.now.strftime('%A %d %B %Y')}"
 
-  def initialize email_list
+  def initialize subreddit, limit, email_list
     @reddit_stories = []
 
+    @subreddit = subreddit
     @email_list = email_list
-    @response = JSON.parse RestClient.get(URL)
+    @limit = limit
+    @response = JSON.parse RestClient.get(url)
 
     process_response
     send_email
@@ -23,15 +23,20 @@ class RedditEmailer
 
   private
 
+  def url
+    @url ||= URL % { :subreddit => @subreddit }
+  end
+
   def process_response
     @response['data']['children'].each do |json|
       story = RedditStory.new(json)
       @reddit_stories << story if story.image_url
-      return if @reddit_stories.size == MAX_STORIES
+      return if @reddit_stories.size == @limit
     end
   end
 
-  def EMAIL_SUBJECT
+  def email_subject
+    @email_subject ||= "%{title} for %{now}" % { :title => title, :now => now }
   end
 
   def send_email
@@ -40,7 +45,7 @@ class RedditEmailer
     mail = Mail.new
     mail.from = EMAIL_FROM
     mail.to = @email_list
-    mail.subject = EMAIL_SUBJECT
+    mail.subject = email_subject
     mail.html_part do
       content_type  'text/html; charset=UTF-8'
       body body
@@ -60,9 +65,16 @@ class RedditEmailer
     end
   end
 
+  def now
+    Time.now.strftime('%A %d %B %Y')
+  end
+
+  def title
+    "Top %{limit} images for Reddit '%{subreddit}'" % { :limit => @limit, :subreddit => @subreddit }
+  end
+
   def generate_html
     body = generate_body_html
-    title = EMAIL_SUBJECT
     email_template = ERB.new(File.read('./lib/templates/email.html.erb'))
     email_template.result(binding)
   end

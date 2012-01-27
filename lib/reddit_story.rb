@@ -23,11 +23,19 @@ class RedditStory
 
       # Lets try and extract out the imgur.com image :)
       #
-      if image_url = Nokogiri::HTML(open(url)).search('.main-image img').attribute('src').to_s
-        image_url
-      else
+      begin
+        if image_url = Nokogiri::HTML(open(url)).search('.main-image img').attribute('src').to_s
+          image_url
+        else
+          false
+        end
+      rescue SocketError => e
         false
       end
     end
+  end
+
+  def method_missing(meth, *args, &block)
+    @json['data'][meth.to_s]
   end
 end

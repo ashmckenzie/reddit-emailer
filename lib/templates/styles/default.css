@@ -1,10 +1,22 @@
 body {
   text-align: center;
+  font-family: Helvetica, Arial;
+  font-size: 0.9em;
+  margin: 0 auto;
+  width: 600px;
 }
 
-img.reddit-story {
+img,
+p {
+  width: 400px;
+}
+
+img {
   background-color: #eee;
   border: 1px solid #ddd;
   padding: 6px;
-  width: 400px;
+}
+
+p {
+  margin: 0 auto;
 }
