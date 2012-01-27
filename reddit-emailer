@@ -18,7 +18,7 @@ opts = Trollop::options do
   opt :limit, "Limit the number of images to display", :type => :integer, :default => 5
 end
 
-Trollop::die :email, "must be provided if not running dry mode" unless opts[:dry]
+Trollop::die :email, "must be provided if not running dry mode" if !opts[:dry] && !opts[:email]
 
 $VERBOSE_ON = opts[:verbose] ? true : false
 $DEBUG_ON = opts[:debug] ? true : false
