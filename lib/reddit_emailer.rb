@@ -7,7 +7,7 @@ class RedditEmailer
 
   URL = 'http://www.reddit.com/r/%{subreddit}.json'
 
-  EMAIL_FROM = 'Ash McKenzie <ash@greeworm.com.au>'
+  EMAIL_FROM = 'Ash McKenzie <ash@greenworm.com.au>'
 
   def initialize subreddit, limit, email_list
     @reddit_stories = []
