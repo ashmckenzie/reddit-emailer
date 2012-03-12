@@ -6,6 +6,12 @@ GEM
       multi_json (~> 1.0)
     addressable (2.2.6)
     awesome_print (1.0.2)
+    capistrano (2.11.2)
+      highline
+      net-scp (>= 1.0.0)
+      net-sftp (>= 2.0.0)
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway (>= 1.1.0)
     chronic (0.6.7)
     coderay (0.9.8)
     css_parser (1.2.6)
@@ -13,6 +19,7 @@ GEM
       rdoc
     facets (2.9.3)
     ffi (1.0.11)
+    highline (1.6.11)
     i18n (0.6.0)
     inline-style (0.5.0)
       css_parser
@@ -33,6 +40,13 @@ GEM
       ruby_parser (>= 2.3.1)
     mime-types (1.17.2)
     multi_json (1.1.0)
+    net-scp (1.0.4)
+      net-ssh (>= 1.99.1)
+    net-sftp (2.0.5)
+      net-ssh (>= 2.0.9)
+    net-ssh (2.3.0)
+    net-ssh-gateway (1.1.0)
+      net-ssh (>= 1.99.1)
     nokogiri (1.5.0)
     polyglot (0.3.3)
     pry (0.9.7.4)
@@ -61,6 +75,7 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print
+  capistrano
   inline-style
   logging
   mail

@@ -6,6 +6,7 @@ gem 'inline-style'
 gem 'trollop'
 gem 'logging'
 gem 'nokogiri'
+gem 'capistrano'
 gem 'whenever', :require => false
 
 group :development do
