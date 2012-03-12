@@ -2,7 +2,7 @@ require 'yaml'
 
 CONFIG = YAML.load_file('config/config.yml')
 
-set :base, "~/apps/reddit-emailer/current"
+set :base, "#{CONFIG['base_location']}/current"
 set :output, "#{base}/log/cron.log"
 
 every 1.day, :at => '8:00 pm' do
