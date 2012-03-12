@@ -1,4 +1,10 @@
+require 'capistrano_colors'
+
+set :bundle_cmd, '. /etc/profile && bundle'
 require "bundler/capistrano"
+
+set :whenever_roles, :app
+set :whenever_command, '. /etc/profile && bundle exec whenever'
 require "whenever/capistrano"
 
 require 'yaml'
@@ -13,9 +19,7 @@ set :deploy_to, CONFIG['deploy']['location']
 set :deploy_via, :copy
 set :keep_releases, 3
 set :use_sudo, false
-
-set :bundle_cmd, '. /etc/profile && bundle'
-set :whenever_command, "bundle exec whenever"
+set :normalize_asset_timestamps, false
 
 set :user, CONFIG['deploy']['ssh_user']
 ssh_options[:port] = CONFIG['deploy']['ssh_port']
