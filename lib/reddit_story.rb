@@ -17,21 +17,27 @@ class RedditStory
   end
 
   def image_url
+    the_image_url = false
+
     if url.match(/\.(jpg|jpeg|gif|png)$/i)
-      url
+      the_image_url = url
     elsif domain == IMGUR_DOMAIN
 
       # Lets try and extract out the imgur.com image :)
       #
       begin
-        if image_url = Nokogiri::HTML(open(url)).search('.main-image img').attribute('src').to_s
-          image_url
-        else
-          false
+        unless the_image_url = Nokogiri::HTML(open(url)).search('.main-image img').attribute('src').to_s
+          the_image_url = false
         end
       rescue SocketError => e
         false
       end
+    end
+
+    if the_image_url
+      "#{$CONFIG['image_scaler_url']}/#{$CONFIG['image_scaler_dimensions']}?file=#{url}"
+    else
+      false
     end
   end
 

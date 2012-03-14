@@ -31,4 +31,6 @@ $logger.level = :debug if $DEBUG_ON
 
 debug_log(opts)
 
+$CONFIG = YAML.load_file('config/config.yml')['app']
+
 RedditEmailer.new(opts[:subreddit], opts[:limit], opts[:email] ? opts[:email].split(',') : [])
