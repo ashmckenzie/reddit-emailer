@@ -35,7 +35,7 @@ class RedditStory
     end
 
     if the_image_url
-      "#{$CONFIG['image_scaler_url']}/#{$CONFIG['image_scaler_dimensions']}?file=#{url}"
+      "#{$CONFIG['image_scaler_url']}/#{$CONFIG['image_scaler_dimensions']}?file=#{the_image_url}"
     else
       false
     end
