@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'cgi'
 
 class RedditStory
 
@@ -35,7 +36,7 @@ class RedditStory
     end
 
     if the_image_url
-      "#{$CONFIG['image_scaler_url']}/#{$CONFIG['image_scaler_dimensions']}?file=#{the_image_url}"
+      "#{$CONFIG['image_scaler_url']}/#{$CONFIG['image_scaler_dimensions']}/#{CGI.escape(the_image_url)}"
     else
       false
     end
