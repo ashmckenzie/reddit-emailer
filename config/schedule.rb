@@ -2,7 +2,7 @@ require 'yaml'
 
 CONFIG = YAML.load_file('config/config.yml')
 
-set :base, "#{CONFIG['base_location']}/current"
+set :base, "#{ENV['HOME']}/#{CONFIG['app']['name']}/current"
 set :output, "#{base}/log/cron.log"
 
 send(:every, eval(CONFIG['app']['cron']['frequency']), eval("{ #{CONFIG['app']['cron']['options']} }")) do

@@ -15,7 +15,7 @@ set :application, "Reddit Emailer"
 set :repository, CONFIG['deploy']['repo']
 
 set :scm, :git
-set :deploy_to, CONFIG['base_location']
+set :deploy_to, "#{ENV['HOME']}/#{CONFIG['app']['name']}/current"
 set :deploy_via, :copy
 set :keep_releases, 3
 set :use_sudo, false
