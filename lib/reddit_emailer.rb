@@ -5,10 +5,6 @@ require_relative 'reddit_story'
 
 class RedditEmailer
 
-  URL = 'http://www.reddit.com/r/%{subreddit}.json'
-
-  EMAIL_FROM = 'Ash McKenzie <ash@greenworm.com.au>'
-
   def initialize subreddit, limit, email_list
     @reddit_stories = []
 
@@ -24,7 +20,7 @@ class RedditEmailer
   private
 
   def url
-    @url ||= URL % { :subreddit => @subreddit }
+    @url ||= $CONFIG['reddit']['url'] % { :subreddit => @subreddit }
   end
 
   def process_response
@@ -43,7 +39,7 @@ class RedditEmailer
     body = InlineStyle.process(generate_html, :stylesheets_path => "./lib/templates/styles")
 
     mail = Mail.new
-    mail.from = EMAIL_FROM
+    mail.from = $CONFIG['email']['from']
     mail.to = @email_list
     mail.subject = email_subject
     mail.html_part do
