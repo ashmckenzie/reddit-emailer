@@ -7,6 +7,10 @@ gem 'trollop'
 gem 'logging'
 gem 'nokogiri'
 gem 'whenever', :require => false
+gem 'rake'
+gem 'resque'
+gem 'resque-scheduler', "~> 2.0.0.g"
+gem 'resque-retry'
 
 group :development do
   gem 'pry'

@@ -1,0 +1,12 @@
+---
+reddit_emailer:
+  cron: '0 7 * * *'
+  queue: 'reddit_emailer'
+  args: 'meep'
+  class: RedditEmailerWorker
+
+clear_leaderboards_moderator:
+  cron: '0 7 * * *'
+  class: CheckDaemon
+  queue: daemons
+  description: "This job will check Daemon every 30 seconds after 120 seconds after start"  

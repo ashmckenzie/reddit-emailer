@@ -1,19 +1,12 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'bundler/setup'
-Bundler.require(:default, :development)
-
-require_relative 'lib/utils'
-require_relative 'lib/reddit_emailer'
-
-include Utils
+require_relative 'lib/init'
 
 opts = Trollop::options do
   opt :verbose, "Verbose mode"
   opt :debug, "Verbose mode"
   opt :dry, "Dry mode (don't send email)"
-  opt :email, "Email addresses to send to", :type => :string
+  opt :email, "Email addresses to send to", :type => :string, :required => true
   opt :subreddit, "Subreddit to trawl", :type => :string, :required => true
   opt :limit, "Limit the number of images to display", :type => :integer, :default => 5
 end
@@ -31,6 +24,4 @@ $logger.level = :debug if $DEBUG_ON
 
 debug_log(opts)
 
-$CONFIG = YAML.load_file('config/config.yml')['app']
-
-RedditEmailer.new(opts[:subreddit], opts[:limit], opts[:email] ? opts[:email].split(',') : [])
+Resque.enqueue(RedditEmailerWorker, opts)
