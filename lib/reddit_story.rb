@@ -27,7 +27,7 @@ class RedditStory
       # Lets try and extract out the imgur.com image :)
       #
       begin
-        unless the_image_url = Nokogiri::HTML(open(url)).search('.main-image img').attribute('src').to_s
+        unless Nokogiri::HTML(open(url)).search('.main-image img') && the_image_url = Nokogiri::HTML(open(url)).search('.main-image img').attribute('src').to_s
           the_image_url = false
         end
       rescue SocketError => e
