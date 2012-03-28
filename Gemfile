@@ -11,6 +11,7 @@ gem 'rake'
 gem 'resque'
 gem 'resque-scheduler', "~> 2.0.0.g"
 gem 'resque-retry'
+gem 'toadhopper'
 
 group :development do
   gem 'pry'
