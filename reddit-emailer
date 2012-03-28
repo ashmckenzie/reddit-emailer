@@ -31,6 +31,12 @@ $logger.level = :debug if $DEBUG_ON
 
 debug_log(opts)
 
-$CONFIG = YAML.load_file('config/config.yml')['app']
+$BASE_CONFIG = YAML.load_file('config/config.yml')
+$CONFIG = $BASE_CONFIG['app']
 
-RedditEmailer.new(opts[:subreddit], opts[:limit], opts[:email] ? opts[:email].split(',') : [])
+begin
+  RedditEmailer.new(opts[:subreddit], opts[:limit], opts[:email] ? opts[:email].split(',') : [])
+rescue  => e
+  require 'toadhopper'
+  Toadhopper.new($BASE_CONFIG['errbit']['api_key'], :notify_host => $BASE_CONFIG['errbit']['host']).post!(e)
+end

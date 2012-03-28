@@ -60,6 +60,7 @@ GEM
     rest-client (1.6.7)
       mime-types (>= 1.16)
     slop (2.4.4)
+    toadhopper (2.0)
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
@@ -82,5 +83,6 @@ DEPENDENCIES
   pry
   pry-nav
   rest-client
+  toadhopper
   trollop
   whenever

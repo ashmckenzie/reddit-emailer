@@ -41,7 +41,7 @@ namespace :deploy do
 
   desc 'Deploy necessary configs into shared/config'
   task :configs do
-    put CONFIG.reject { |x| x == 'deploy' }.to_yaml, "#{shared_path}/config/config.yml"
+    put CONFIG.reject { |x| [ 'deploy', 'errbit' ].include?(x) }.to_yaml, "#{shared_path}/config/config.yml"
     run "ln -nfs #{shared_path}/config/config.yml #{release_path}/config/config.yml"
   end
 end
