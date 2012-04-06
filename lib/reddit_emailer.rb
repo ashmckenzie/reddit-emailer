@@ -1,5 +1,6 @@
 require 'erb'
 require 'json'
+require 'open-uri'
 
 require_relative 'reddit_story'
 
@@ -11,10 +12,15 @@ class RedditEmailer
     @subreddit = subreddit
     @email_list = email_list
     @limit = limit
-    @response = JSON.parse RestClient.get(url)
+    @response = JSON.parse(RestClient.get(url, { 'Cache-Control' => 'no-cache' }))
 
     process_response
-    send_email
+
+    unless $DEBUG_ON
+      send_email
+    else
+      ap generate_html
+    end
   end
 
   private
@@ -26,7 +32,7 @@ class RedditEmailer
   def process_response
     @response['data']['children'].each do |json|
       story = RedditStory.new(json)
-      @reddit_stories << story if story.image_url
+      @reddit_stories << story unless story.image_urls.empty?
       return if @reddit_stories.size == @limit
     end
   end

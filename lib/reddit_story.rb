@@ -17,28 +17,27 @@ class RedditStory
     @json['data']['url']
   end
 
-  def image_url
-    the_image_url = false
+  def image_urls
+
+    images = []
 
     if url.match(/\.(jpg|jpeg|gif|png)$/i)
-      the_image_url = url
+      images = [ url ]
     elsif domain == IMGUR_DOMAIN
 
       # Lets try and extract out the imgur.com image :)
       #
+      images = []
+
       begin
-        unless Nokogiri::HTML(open(url)).search('.main-image img') && the_image_url = Nokogiri::HTML(open(url)).search('.main-image img').attribute('src').to_s
-          the_image_url = false
-        end
+        images = Nokogiri::HTML(open(url)).search('div.left div.panel img').collect { |image| (image.attribute('data-src') || image.attribute('src')).to_s }
       rescue SocketError => e
         false
       end
     end
 
-    if the_image_url
-      "#{$CONFIG['image_scaler']['url']}/#{$CONFIG['image_scaler']['dimensions']}/#{CGI.escape(the_image_url)}"
-    else
-      false
+    images.collect do |image|
+      "#{$CONFIG['image_scaler']['url']}/#{$CONFIG['image_scaler']['dimensions']}/#{CGI.escape(image)}"
     end
   end
 

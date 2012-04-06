@@ -37,6 +37,10 @@ $CONFIG = $BASE_CONFIG['app']
 begin
   RedditEmailer.new(opts[:subreddit], opts[:limit], opts[:email] ? opts[:email].split(',') : [])
 rescue  => e
-  require 'toadhopper'
-  Toadhopper.new($BASE_CONFIG['errbit']['api_key'], :notify_host => $BASE_CONFIG['errbit']['host']).post!(e)
+  if $BASE_CONFIG['errbit']['enable']
+    require 'toadhopper'
+    Toadhopper.new($BASE_CONFIG['errbit']['api_key'], :notify_host => $BASE_CONFIG['errbit']['host']).post!(e)
+  else
+    raise
+  end
 end

@@ -1,8 +1,10 @@
-<p>
-  <a href="<%= story.url %>">
-    <img src="<%= story.image_url %>" />
-  </a>
-</p>
+<% story.image_urls.each do |image_url| %>
+  <p>
+    <a href="<%= story.url %>">
+      <img src="<%= image_url %>" />
+    </a>
+  </p>
+<% end %>
 <br/>
 <p>
   <%= story.title %>
