@@ -4,8 +4,8 @@ require 'rubygems'
 require 'bundler/setup'
 Bundler.require(:default, :development)
 
-require_relative 'lib/utils'
-require_relative 'lib/reddit_emailer'
+require_relative '../lib/utils'
+require_relative '../lib/reddit/emailer'
 
 include Utils
 
@@ -35,7 +35,7 @@ $BASE_CONFIG = YAML.load_file('config/config.yml')
 $CONFIG = $BASE_CONFIG['app']
 
 begin
-  RedditEmailer.new(opts[:subreddit], opts[:limit], opts[:email] ? opts[:email].split(',') : [])
+  Reddit::Emailer.new(opts[:subreddit], opts[:limit], opts[:email] ? opts[:email].split(',') : [])
 rescue  => e
   if $BASE_CONFIG['errbit']['enable']
     require 'toadhopper'
