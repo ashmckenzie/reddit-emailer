@@ -4,7 +4,9 @@ require 'rubygems'
 require 'bundler/setup'
 Bundler.require(:default, :development)
 
+require_relative '../lib/init'
 require_relative '../lib/utils'
+require_relative '../lib/errbit'
 require_relative '../lib/reddit/emailer'
 
 include Utils
@@ -18,7 +20,7 @@ opts = Trollop::options do
   opt :limit, "Limit the number of images to display", :type => :integer, :default => 5
 end
 
-Trollop::die :email, "must be provided if not running dry mode" if !opts[:dry] && !opts[:email]
+Trollop::die :email, "must be provided if not running --dry mode" if !opts[:dry] && !opts[:email]
 
 $VERBOSE_ON = opts[:verbose] ? true : false
 $DEBUG_ON = opts[:debug] ? true : false
@@ -31,16 +33,6 @@ $logger.level = :debug if $DEBUG_ON
 
 debug_log(opts)
 
-$BASE_CONFIG = YAML.load_file('config/config.yml')
-$CONFIG = $BASE_CONFIG['app']
-
-begin
+Errbit.endeavour(OpenURI::HTTPError) do |try|
   Reddit::Emailer.new(opts[:subreddit], opts[:limit], opts[:email] ? opts[:email].split(',') : [])
-rescue  => e
-  if $BASE_CONFIG['errbit']['enable']
-    require 'toadhopper'
-    Toadhopper.new($BASE_CONFIG['errbit']['api_key'], :notify_host => $BASE_CONFIG['errbit']['host']).post!(e)
-  else
-    raise
-  end
 end
