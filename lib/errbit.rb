@@ -34,11 +34,11 @@ class Errbit
   end
 
   def enabled?
-    (ENV['REDDIT_EMAILER_ERRBIT_ENABLE'] || ENV['REDDIT_EMAILER_ERRBIT_ENABLE'] == 'true') ? true : false
+    (ENV['ERRBIT_ENABLE'] || ENV['ERRBIT_ENABLE'] == 'true') ? true : false
   end
 
   def environment
-    ENV['REDDIT_EMAILER_ENV'] ? ENV['REDDIT_EMAILER_ENV'] : 'development'
+    ENV['APP_ENV'] ? ENV['APP_ENV'] : 'development'
   end
 
   def new_opts

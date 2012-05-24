@@ -36,7 +36,7 @@ namespace :deploy do
 
   desc 'More setup.. ensure necessary directories exist, etc'
   task :more_setup do
-    run "mkdir -p #{shared_path}/config"
+    run "mkdir -p #{shared_path}/config #{shared_path}/log"
   end
 
   desc 'Deploy necessary configs into shared/config'
