@@ -1,22 +1,24 @@
-require_relative './init'
+require File.expand_path(File.join('config', 'initialisers', '00_config'))
 
 class Errbit
 
-  def self.endeavour exception, retries=3
+  def self.endeavour exception, retries=3, delay=3
     raise 'Block must be given' unless block_given?
     return new.endeavour(exception, retries) { yield }
   end
 
-  def endeavour exception, retries=3
+  def endeavour exception, retries=3, delay=3
     raise 'Block must be given' unless block_given?
     max_retries = retries
     begin
       return yield
-    rescue exception => e
-      if (retries -= 1) >= 0
-        $logger.info "#{e.inspect}: retry #{(retries - max_retries).abs}"
+    rescue => e
+      if e.class == exception && (retries -= 1) >= 0
+        $logger.info "#{e.class}: retry #{(retries - max_retries).abs} (sleeping for #{delay} secs)"
+        sleep delay
         retry
       else
+        $logger.info "#{e.class}: Giving up"
         if enabled?
           require 'toadhopper'
           Toadhopper.new(api_key, new_opts).post!(e, post_opts)
@@ -30,7 +32,7 @@ class Errbit
   private
 
   def api_key
-    $BASE_CONFIG['errbit']['api_key']
+    $CONFIG.errbit.api_key
   end
 
   def enabled?
@@ -42,7 +44,7 @@ class Errbit
   end
 
   def new_opts
-    { :notify_host => $BASE_CONFIG['errbit']['host'] }
+    { :notify_host => $CONFIG.errbit.host }
   end
 
   def post_opts

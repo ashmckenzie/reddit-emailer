@@ -27,7 +27,7 @@ module Reddit
     private
 
     def url
-      @url ||= $CONFIG['reddit']['url'] % { :subreddit => @subreddit }
+      @url ||= $APP_CONFIG.reddit.url % { :subreddit => @subreddit }
     end
 
     def process_response
@@ -46,7 +46,7 @@ module Reddit
       body = InlineStyle.process(generate_html, :stylesheets_path => "./lib/templates/styles")
 
       mail = Mail.new
-      mail.from = $CONFIG['email']['from']
+      mail.from = $APP_CONFIG.email.from
       mail.to = @email_list
       mail.subject = email_subject
       mail.html_part do

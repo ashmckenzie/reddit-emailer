@@ -8,11 +8,13 @@ gem 'logging'
 gem 'nokogiri'
 gem 'whenever', :require => false
 gem 'toadhopper'
-gem 'awesome_print'
+gem 'hashie'
 
 group :development do
+  gem 'rake'
   gem 'pry'
   gem 'pry-nav'
+  gem 'awesome_print'
   gem 'capistrano'
   gem 'capistrano_colors'
 end

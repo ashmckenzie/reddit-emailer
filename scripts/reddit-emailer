@@ -4,7 +4,8 @@ require 'rubygems'
 require 'bundler/setup'
 Bundler.require(:default, :development)
 
-require_relative '../lib/init'
+Dir[File.join('config', 'initialisers', '*.rb')].each { |f| require "./#{f}" }
+
 require_relative '../lib/utils'
 require_relative '../lib/errbit'
 require_relative '../lib/reddit/emailer'

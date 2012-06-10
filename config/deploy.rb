@@ -1,31 +1,30 @@
+require 'yaml'
 require 'capistrano_colors'
 
 set :bundle_cmd, '. /etc/profile && bundle'
 require "bundler/capistrano"
 
-set :whenever_roles, :app
-set :whenever_command, '. /etc/profile && bundle exec whenever'
-require "whenever/capistrano"
-
-require 'yaml'
-
-CONFIG = YAML.load_file('config/config.yml')
+require File.expand_path(File.join('config', 'initialisers', '00_config'))
 
 set :application, "Reddit Emailer"
-set :repository, CONFIG['deploy']['repo']
+set :repository, $CONFIG.deploy.repo
 
 set :scm, :git
-set :deploy_to, "#{CONFIG['deploy']['base']}/#{CONFIG['app']['name']}"
-set :deploy_via, :copy
+set :scm_verbose, true
+
+set :deploy_to, "#{$CONFIG.deploy.base}/#{$APP_CONFIG.name}"
+set :deploy_via, :remote_cache
+
 set :keep_releases, 3
 set :use_sudo, false
 set :normalize_asset_timestamps, false
 
-set :user, CONFIG['deploy']['ssh_user']
-ssh_options[:port] = CONFIG['deploy']['ssh_port']
-ssh_options[:keys] = eval(CONFIG['deploy']['ssh_key'])
+set :user, $CONFIG.deploy.ssh_user
+ssh_options[:port] = $CONFIG.deploy.ssh_port
+ssh_options[:keys] = eval($CONFIG.deploy.ssh_key)
+ssh_options[:forward_agent] = true
 
-role :app, CONFIG['deploy']['ssh_host']
+role :app, $CONFIG.deploy.ssh_host
 
 after "deploy:update", "deploy:cleanup"
 after "deploy:setup", "deploy:more_setup"

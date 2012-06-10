@@ -38,7 +38,8 @@ module Reddit
       end
 
       images.collect do |image|
-        "#{$CONFIG['image_scaler']['url']}/#{$CONFIG['image_scaler']['dimensions']}/#{CGI.escape(image)}"
+        is_config = $APP_CONFIG.image_scaler
+        "#{is_config.url}/#{is_config.dimensions}/#{CGI.escape(image)}?api_key=#{is_config.api_key}"
       end
     end
 
