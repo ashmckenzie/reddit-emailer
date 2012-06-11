@@ -24,9 +24,8 @@ namespace :resque do
     # Note: This feature is only available in >=2.0.0.
     #Resque::Scheduler.dynamic = true
 
-    schedule = YAML.load_file('./config/schedule.yml')
-    p schedule
-    Resque.schedule = schedule
+    # schedule = YAML.load_file('./config/schedule.yml')
+    # Resque.schedule = schedule
 
     # If your schedule already has +queue+ set for each job, you don't
     # need to require your jobs.  This can be an advantage since it's

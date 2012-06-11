@@ -12,7 +12,6 @@ class RedditEmailer
     @email_list = email_list
     @limit = limit
 
-    raise 'Fake exception'
     @response = JSON.parse(RestClient.get(url))
 
     process_response

@@ -8,6 +8,6 @@ class RedditEmailerWorker
   # @retry_delay = 10
 
   def self.perform opts
-    RedditEmailer.new(opts['subreddit'], opts['limit'], opts['email'])
+    ::RedditEmailer.new(opts['subreddit'], opts['limit'], opts['email'])
   end
 end

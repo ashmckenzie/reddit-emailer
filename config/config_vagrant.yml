@@ -1,0 +1,12 @@
+---
+deploy:
+  repo: 'git@github.com:ashmckenzie/reddit-emailer.git'
+  location: "/home/vagrant/apps/reddit-emailer"
+  ssh_host: '127.0.0.1'
+  ssh_port: 2222
+  ssh_user: 'vagrant'
+  ssh_key: "File.join(ENV['HOME'], '.vagrant.d', 'insecure_private_key')"
+app:
+  limit: 10
+  subreddit: 'aww'
+  emails: 'ash@greenworm.com.au, alisonmckenzie79@gmail.com'
