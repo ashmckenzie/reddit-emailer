@@ -1,9 +1,3 @@
-require 'erb'
-require 'json'
-require 'open-uri'
-
-require_relative 'story'
-
 module Reddit
   class Emailer
 
@@ -13,7 +7,7 @@ module Reddit
       @subreddit = subreddit
       @email_list = email_list
       @limit = limit
-      @response = JSON.parse(RestClient.get(url, { 'Cache-Control' => 'no-cache' }))
+      @response = Hashie::Mash.new JSON.parse(RestClient.get(url, { 'Cache-Control' => 'no-cache' }))
 
       process_response
 
@@ -31,7 +25,7 @@ module Reddit
     end
 
     def process_response
-      @response['data']['children'].each do |json|
+      @response.data.children.each do |json|
         story = Reddit::Story.new(json)
         @stories << story unless story.image_urls.empty?
         return if @stories.size == @limit

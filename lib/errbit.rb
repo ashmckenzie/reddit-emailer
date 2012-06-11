@@ -1,4 +1,4 @@
-require File.expand_path(File.join('config', 'initialisers', '00_config'))
+Dir[File.join('config', 'initialisers', '*.rb')].each { |f| require "./#{f}" }
 
 class Errbit
 

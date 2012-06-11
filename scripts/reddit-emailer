@@ -1,14 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'bundler/setup'
-Bundler.require(:default, :development)
-
 Dir[File.join('config', 'initialisers', '*.rb')].each { |f| require "./#{f}" }
-
-require_relative '../lib/utils'
-require_relative '../lib/errbit'
-require_relative '../lib/reddit/emailer'
 
 include Utils
 
@@ -18,7 +10,7 @@ opts = Trollop::options do
   opt :dry, "Dry mode (don't send email)"
   opt :email, "Email addresses to send to", :type => :string
   opt :subreddit, "Subreddit to trawl", :type => :string, :required => true
-  opt :limit, "Limit the number of images to display", :type => :integer, :default => 5
+  opt :limit, "Limit the number of images to display", :type => :integer, :default => $APP_CONFIG.reddit.default_limit
 end
 
 Trollop::die :email, "must be provided if not running --dry mode" if !opts[:dry] && !opts[:email]

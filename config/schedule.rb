@@ -1,10 +1,14 @@
-require 'yaml'
+Dir[File.join('config', 'initialisers', '*.rb')].each { |f| require "./#{f}" }
 
-CONFIG = YAML.load_file('config/config.yml')
-
-set :base, "#{ENV['HOME']}/#{CONFIG['app']['name']}/current"
+set :base, "#{ENV['HOME']}/#{$APP_CONFIG.name}/current"
 set :output, "#{base}/log/cron.log"
 
-send(:every, eval(CONFIG['app']['cron']['frequency']), eval("{ #{CONFIG['app']['cron']['options']} }")) do
-  command "cd #{base} && ERRBIT_ENABLE=true APP_ENV=production ./scripts/reddit-emailer --limit #{CONFIG['app']['reddit']['limit']} --subreddit #{CONFIG['app']['reddit']['subreddit']} --email \"#{CONFIG['app']['email']['to']}\""
+set :cmd, "cd #{base} && \
+ERRBIT_ENABLE=true APP_ENV=production ./scripts/reddit-emailer \
+--limit #{$APP_CONFIG.reddit.default_limit} \
+--subreddit #{$APP_CONFIG.reddit.subreddit} \
+--email \"#{$APP_CONFIG.email.to}\""
+
+send(:every, eval($APP_CONFIG.cron.frequency), eval("{ #{$APP_CONFIG.cron.options} }")) do
+  command cmd
 end
