@@ -9,6 +9,7 @@ gem 'nokogiri'
 gem 'whenever', :require => false
 gem 'toadhopper'
 gem 'hashie'
+gem 'haml'
 
 group :development do
   gem 'rake'
@@ -17,4 +18,6 @@ group :development do
   gem 'awesome_print'
   gem 'capistrano'
   gem 'capistrano_colors'
+  gem 'minitest', '~> 3.0'
+  gem 'mocha'
 end
