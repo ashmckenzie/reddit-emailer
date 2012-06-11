@@ -1,10 +1,7 @@
-require 'yaml'
-require 'capistrano_colors'
-
 set :bundle_cmd, '. /etc/profile && bundle'
 require "bundler/capistrano"
 
-require File.expand_path(File.join('config', 'initialisers', '00_config'))
+Dir[File.join('config', 'initialisers', '*.rb')].each { |f| require "./#{f}" }
 
 set :application, "Reddit Emailer"
 set :repository, $CONFIG.deploy.repo
@@ -18,6 +15,9 @@ set :deploy_via, :remote_cache
 set :keep_releases, 3
 set :use_sudo, false
 set :normalize_asset_timestamps, false
+
+set :copy_cache, true
+set :copy_exclude, 'test'
 
 set :user, $CONFIG.deploy.ssh_user
 ssh_options[:port] = $CONFIG.deploy.ssh_port

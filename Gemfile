@@ -18,6 +18,9 @@ group :development do
   gem 'awesome_print'
   gem 'capistrano'
   gem 'capistrano_colors'
+end
+
+group :test do
   gem 'minitest', '~> 3.0'
   gem 'mocha'
 end
