@@ -1,7 +1,7 @@
 set :bundle_cmd, '. /etc/profile && bundle'
 require "bundler/capistrano"
 
-Dir[File.join('config', 'initialisers', '*.rb')].each { |f| require "./#{f}" }
+Dir[File.join('config', 'initialisers', '*.rb')].sort.each { |f| require "./#{f}" }
 
 set :application, "Reddit Emailer"
 set :repository, $CONFIG.deploy.repo

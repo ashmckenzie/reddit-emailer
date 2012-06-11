@@ -1,4 +1,4 @@
-Dir[File.join('config', 'initialisers', '*.rb')].each { |f| require "./#{f}" }
+Dir[File.join('config', 'initialisers', '*.rb')].sort.each { |f| require "./#{f}" }
 
 class Errbit
 

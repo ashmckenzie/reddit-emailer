@@ -1,3 +1,5 @@
-Dir[File.join('config', 'initialisers', '*.rb')].each { |f| require "./#{f}" }# require 'minitest/spec'
+Dir[File.join('config', 'initialisers', '*.rb')].sort.each { |f| require "./#{f}" }
 
 require 'minitest/autorun'
+require 'minitest/spec'
+require 'mocha'
