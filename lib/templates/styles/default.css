@@ -1,9 +1,12 @@
 body {
-  text-align: center;
   font-family: Helvetica, Arial;
   font-size: 0.9em;
   margin: 0 auto;
   width: 600px;
+}
+
+body * {
+  text-align: center;
 }
 
 img,

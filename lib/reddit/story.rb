@@ -41,7 +41,7 @@ module Reddit
     end
 
     def method_missing(meth, *args, &block)
-      @data.meth.to_s
+      @data.send(meth).to_s
     end
 
     private
