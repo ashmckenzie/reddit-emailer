@@ -72,8 +72,8 @@ module Reddit
 
     def generate_html
       body = generate_body_html
-      email_template = ERB.new(File.read('./lib/templates/email.html.erb'))
-      email_template.result(binding)
+      email_template = Haml::Engine.new(File.read('./lib/templates/email.html.haml'))
+      email_template.render(binding)
     end
 
     def generate_body_html
@@ -85,8 +85,8 @@ module Reddit
     end
 
     def generate_story_html story
-      @story_template ||= ERB.new(File.read('./lib/templates/shared/_story.html.erb'))
-      @story_template.result(binding)
+      @story_template ||= Haml::Engine.new(File.read('./lib/templates/shared/_story.html.haml'))
+      @story_template.render(binding)
     end
 
   end

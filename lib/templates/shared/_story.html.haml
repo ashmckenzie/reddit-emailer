@@ -1,0 +1,8 @@
+- story.image_urls.each do |image_url|
+  %p
+    %a{:href => story.url}
+      %img{:src => image_url}
+%br
+%p
+  = story.title
+%br
