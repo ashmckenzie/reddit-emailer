@@ -50,6 +50,8 @@ module Reddit
       img_url = 'http://api.imgur.com/2'
       m = url.match(/^http:\/\/imgur\.com\/(a)?\/?(.+)$/)
 
+      return [] unless m
+
       if m[1] == 'a'
         img_url += "/album/#{m[2]}"
       else
