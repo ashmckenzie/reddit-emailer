@@ -48,7 +48,7 @@ module Reddit
 
     def extract_images
       img_url = 'http://api.imgur.com/2'
-      m = url.match(/^http:\/\/imgur\.com\/(a)?\/?(.+)$/)
+      m = url.match(/^http:\/\/imgur\.com\/(a)?\/?(\w+)/)
 
       return [] unless m
 
@@ -60,7 +60,12 @@ module Reddit
 
       img_url += '.xml'
 
-      Nokogiri::XML(open(img_url)).search('links/original').collect { |x| x.text }[0...$APP_CONFIG.reddit.max_album_images]
+      begin
+        Nokogiri::XML(open(img_url)).search('links/original').collect { |x| x.text }[0...$APP_CONFIG.reddit.max_album_images]
+      rescue => e
+        binding.pry if $DEBUG_ON
+        []
+      end
     end
 
     def prep_image_url url
