@@ -1,5 +1,6 @@
 module Reddit
   class Story
+    include Celluloid
 
     IMGUR_IMAGE_DOMAIN = 'i.imgur.com'
 
@@ -40,8 +41,8 @@ module Reddit
       end
     end
 
-    def method_missing(meth, *args, &block)
-      @data.send(meth).to_s
+    def title
+      @data.title.to_s
     end
 
     private

@@ -26,6 +26,8 @@ $logger.level = :debug if $DEBUG_ON
 
 debug_log(opts)
 
+Celluloid.logger = nil
+
 Errbit.endeavour(OpenURI::HTTPError) do |try|
   Reddit::Emailer.new(opts[:subreddit], opts[:limit], opts[:email] ? opts[:email].split(',') : [])
 end

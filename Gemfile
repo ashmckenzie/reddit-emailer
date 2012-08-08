@@ -10,6 +10,7 @@ gem 'whenever', :require => false
 gem 'toadhopper'
 gem 'hashie'
 gem 'haml'
+gem 'celluloid', :git => 'git://github.com/celluloid/celluloid.git'
 
 group :development do
   gem 'rake'

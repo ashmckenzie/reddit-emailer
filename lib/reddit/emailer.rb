@@ -27,7 +27,8 @@ module Reddit
     def process_response
       @response.data.children.each do |json|
         story = Reddit::Story.new(json)
-        @stories << story unless story.image_urls.empty?
+        future = story.future :image_urls
+        @stories << story unless future.value.empty?
         return if @stories.size == @limit
       end
     end
@@ -79,15 +80,12 @@ module Reddit
     def generate_body_html
       stories_html = []
       @stories.each do |story|
-        stories_html << generate_story_html(story)
+        story_html = StoryHtml.new(story)
+        future = story_html.future :generate_story_html
+        stories_html << future.value
+        # stories_html << generate_story_html(story)
       end
       stories_html.join("\n")
     end
-
-    def generate_story_html story
-      @story_template ||= Haml::Engine.new(File.read('./lib/templates/shared/_story.html.haml'))
-      @story_template.render(binding)
-    end
-
   end
 end
