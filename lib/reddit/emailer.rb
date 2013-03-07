@@ -42,7 +42,7 @@ module Reddit
 
       mail = Mail.new
       mail.from = $APP_CONFIG.email.from
-      mail.to = @email_list
+      mail.bcc = @email_list
       mail.subject = email_subject
       mail.html_part do
         content_type  'text/html; charset=UTF-8'
