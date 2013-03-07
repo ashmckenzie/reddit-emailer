@@ -1,6 +1,10 @@
 set :bundle_cmd, '. /etc/profile && bundle'
 require "bundler/capistrano"
 
+set :whenever_roles, :app
+set :whenever_command, '. /etc/profile && bundle exec whenever'
+require "whenever/capistrano"
+
 Dir[File.join('config', 'initialisers', '*.rb')].sort.each { |f| require "./#{f}" }
 
 set :application, "Reddit Emailer"
