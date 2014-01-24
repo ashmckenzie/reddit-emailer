@@ -9,8 +9,9 @@ gem 'nokogiri'
 gem 'whenever', :require => false
 gem 'toadhopper'
 gem 'hashie'
-gem 'haml'
 gem 'celluloid', :git => 'git://github.com/celluloid/celluloid.git'
+gem 'mandrill-api'
+gem 'clamp'
 
 group :development do
   gem 'rake'

@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+
+require 'clamp'
+require 'logging'
+require 'open-uri'
+
+require_relative '../config/initialise'
+
+Clamp do
+  option "--version", :flag, "show version" do
+    puts "toolbelt #{RedditEmailer::VERSION}"
+    exit 0
+  end
+
+  option '--verbose', :flag, 'Enable verbose logging'
+  option '--dry-mode', :flag, "Enable dry-run (don't send email)"
+  option '--emails', 'EMAILS', 'Email addresses to send to'
+  option '--subreddit', 'SUBREDDIT', 'Subreddit to trawl', required: true
+  option '--limit', 'LIMIT', 'Limit the number of images to display', default: 10
+
+  def execute
+
+    if dry_mode?
+      email_list = []
+    else
+      signal_usage_error "option '--emails' is required" if emails.nil?
+
+      email_list = emails.split(/,/)
+    end
+
+    $logger = Logging.logger(STDOUT)
+    $logger.level = :info if verbose?
+
+    options = {
+      limit:    limit.to_i,
+      dry_mode: !!dry_mode?
+    }
+
+    RedditEmailer::Errbit.endeavour(OpenURI::HTTPError) do |try|
+      RedditEmailer::Reddit::Emailer.new(email_list, subreddit, options).send!
+    end
+  end
+end

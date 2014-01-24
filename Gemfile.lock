@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/celluloid/celluloid.git
-  revision: 4f90a3b49fdb77a62faa89447cc0095ec941a4fb
+  revision: cc0c59dad727f2dd71868834f53db09d13525e91
   specs:
-    celluloid (0.12.0)
-      timers (>= 1.0.0)
+    celluloid (0.16.0.pre)
+      timers (~> 2.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -21,15 +21,17 @@ GEM
       net-ssh-gateway (>= 1.1.0)
     capistrano_colors (0.5.5)
     chronic (0.6.7)
+    clamp (0.6.3)
     coderay (1.0.7)
     css_parser (1.2.6)
       addressable
       rdoc
+    excon (0.15.5)
     facets (2.9.3)
     ffi (1.1.4)
-    haml (3.1.6)
     hashie (1.2.0)
     highline (1.6.13)
+    hitimes (1.2.1)
     i18n (0.6.0)
     inline-style (0.5.0)
       css_parser
@@ -46,6 +48,9 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    mandrill-api (1.0.14)
+      excon (~> 0.15.4)
+      json (~> 1.7.4)
     metaclass (0.0.1)
     method_source (0.8)
     mime-types (1.19)
@@ -74,7 +79,8 @@ GEM
     rest-client (1.6.7)
       mime-types (>= 1.16)
     slop (3.3.2)
-    timers (1.0.1)
+    timers (2.0.0)
+      hitimes
     toadhopper (2.1)
     treetop (1.4.10)
       polyglot
@@ -92,11 +98,12 @@ DEPENDENCIES
   capistrano
   capistrano_colors
   celluloid!
-  haml
+  clamp
   hashie
   inline-style
   logging
   mail
+  mandrill-api
   minitest (~> 3.0)
   mocha
   nokogiri

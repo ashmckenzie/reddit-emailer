@@ -1,14 +1,16 @@
-Dir[File.join('config', 'initialisers', '*.rb')].sort.each { |f| require "./#{f}" }
+def config
+  RedditEmailer::Config.instance
+end
 
-set :base, "#{ENV['HOME']}/#{$APP_CONFIG.name}/current"
+set :base, "#{ENV['HOME']}/#{config.name}/current"
 set :output, "#{base}/log/cron.log"
 
 set :cmd, "cd #{base} && \
 ERRBIT_ENABLE=true APP_ENV=production ./scripts/reddit-emailer \
---limit #{$APP_CONFIG.reddit.default_limit} \
---subreddit #{$APP_CONFIG.reddit.subreddit} \
---email \"#{$APP_CONFIG.email.to}\""
+--limit #{config.reddit.default_limit} \
+--subreddit #{config.reddit.subreddit} \
+--email \"#{config.email.to}\""
 
-send(:every, eval($APP_CONFIG.cron.frequency), eval("{ #{$APP_CONFIG.cron.options} }")) do
+send(:every, eval(config.cron.frequency), eval("{ #{config.cron.options} }")) do
   command cmd
 end

@@ -1,0 +1,25 @@
+<table class="row">
+  <tr>
+    <td class="wrapper last">
+
+      <table class="twelve columns center">
+        <tr>
+          <td class="center">
+            <% story.image_urls.each do |image_url| %>
+              <a href="<%= story.url %>">
+                <img src="<%= image_url %>" class="center full-width" />
+              </a>
+            <% end %>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="center">
+            <span class="center"><%= story.title %></span>
+          </td>
+        </tr>
+      </table>
+
+    </td>
+  </tr>
+</table>
