@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "Deploying..."
+cd ${HOME}/apps/reddit-emailer
+env -i git fetch
+env -i git checkout -f origin/HEAD
+
+echo "Running 'bundle install --deployment'"
+bundle install --deployment --without 'development test'
+
+echo "Running 'bundle exec whenever --update-crontab'"
+bundle exec whenever --update-crontab

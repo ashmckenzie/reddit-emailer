@@ -1,3 +1,5 @@
+require File.expand_path(File.join('..', 'initialise'), __FILE__)
+
 def config
   RedditEmailer::Config.instance
 end
@@ -5,12 +7,18 @@ end
 set :base, "#{ENV['HOME']}/#{config.name}/current"
 set :output, "#{base}/log/cron.log"
 
-set :cmd, "cd #{base} && \
-ERRBIT_ENABLE=true APP_ENV=production ./scripts/reddit-emailer \
---limit #{config.reddit.default_limit} \
---subreddit #{config.reddit.subreddit} \
---email \"#{config.email.to}\""
+require 'pry'
 
-send(:every, eval(config.cron.frequency), eval("{ #{config.cron.options} }")) do
-  command cmd
+config.email.to.each do |x|
+  run_at, emails = x
+  run_at = run_at.gsub(/_/, ':')
+
+  set :cmd, "cd #{base} && \
+  ERRBIT_ENABLE=true APP_ENV=production ./bin/reddit-emailer \
+  --subreddit #{config.reddit.subreddit} \
+  --emails \"#{emails}\""
+
+  send(:every, 1.day, at: run_at) do
+    command cmd
+  end
 end
