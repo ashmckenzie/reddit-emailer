@@ -4,7 +4,7 @@ require 'tempfile'
 require 'json'
 require 'rest-client'
 require 'celluloid'
-# require 'inline-style'
+require 'inline-style'
 require 'mandrill'
 require 'erb'
 
@@ -65,8 +65,7 @@ module RedditEmailer
         end
 
         def send_email!
-          # html = InlineStyle.process(generate_html, :stylesheets_path => "./lib/templates/styles")
-          html = generate_html
+          html = InlineStyle.process(generate_html)
 
           if dry_mode?
             filename = Tempfile.new(['reddit-emailer', '.html'])
@@ -103,7 +102,7 @@ module RedditEmailer
         end
 
         def title
-          "Top %{limit} images for Reddit '%{subreddit}'" % { limit: limit, subreddit: subreddit }
+          "Top %{limit} Reddit '%{subreddit}' images" % { limit: limit, subreddit: subreddit }
         end
 
         def generate_html

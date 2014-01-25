@@ -24,7 +24,6 @@ Clamp do
       email_list = []
     else
       signal_usage_error "option '--emails' is required" if emails.nil?
-
       email_list = emails.split(/,/)
     end
 
