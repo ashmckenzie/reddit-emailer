@@ -4,7 +4,7 @@ def config
   RedditEmailer::Config.instance
 end
 
-set :base, "#{ENV['HOME']}/#{config.name}"
+set :base, "#{ENV['HOME']}/apps/#{config.name}"
 set :output, "#{base}/log/cron.log"
 
 config.email.to.each do |x|
