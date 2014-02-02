@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'clamp'
-require 'logging'
 require 'open-uri'
 
 require_relative '../config/initialise'
@@ -27,7 +26,7 @@ Clamp do
       email_list = emails.split(/,/)
     end
 
-    $logger = Logging.logger(STDOUT)
+    $logger = Logger.new(STDOUT)
     $logger.level = :info if verbose?
 
     options = {
