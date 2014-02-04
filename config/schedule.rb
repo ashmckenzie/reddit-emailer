@@ -12,7 +12,7 @@ config.email.to.each do |x|
   run_at = run_at.gsub(/_/, ':')
 
   set :cmd, "cd #{base} && \
-  ERRBIT_ENABLE=true APP_ENV=production bundle exec ./bin/reddit-emailer \
+  ERRBIT_ENABLE=true APP_ENV=production /usr/local/bin/bundle exec ./bin/reddit-emailer \
   --subreddit #{config.reddit.subreddit} \
   --emails \"#{emails}\""
 
