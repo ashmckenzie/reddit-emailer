@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'logger'
 require 'clamp'
 require 'open-uri'
 
@@ -27,7 +28,7 @@ Clamp do
     end
 
     $logger = Logger.new(STDOUT)
-    $logger.level = :info if verbose?
+    $logger.level = Logger::INFO if verbose?
 
     options = {
       limit:    limit.to_i,

@@ -1,13 +1,10 @@
 # coding: utf-8
 
-require 'celluloid'
 require 'nokogiri'
 
 module RedditEmailer
   module Reddit
     class Story
-
-      include Celluloid
 
       IMGUR_IMAGE_DOMAIN = 'i.imgur.com'
 

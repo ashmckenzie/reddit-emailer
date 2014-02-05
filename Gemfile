@@ -5,7 +5,6 @@ gem 'inline-style'
 gem 'nokogiri'
 gem 'toadhopper'
 gem 'hashie'
-gem 'celluloid'
 gem 'mandrill-api'
 gem 'clamp'
 gem 'whenever', require: false

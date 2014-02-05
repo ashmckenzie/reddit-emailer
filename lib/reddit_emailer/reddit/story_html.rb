@@ -1,13 +1,10 @@
 # coding: utf-8
 
-require 'celluloid'
 require 'erb'
 
 module RedditEmailer
   module Reddit
     class StoryHtml
-
-      include Celluloid
 
       attr_reader :story
 

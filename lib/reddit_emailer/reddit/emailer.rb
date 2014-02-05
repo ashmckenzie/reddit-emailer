@@ -3,7 +3,6 @@
 require 'tempfile'
 require 'json'
 require 'rest-client'
-require 'celluloid'
 require 'inline-style'
 require 'mandrill'
 require 'erb'
@@ -11,8 +10,6 @@ require 'erb'
 module RedditEmailer
   module Reddit
     class Emailer
-
-      include Celluloid
 
       def initialize email_list, subreddit, options
         @stories = []
@@ -49,8 +46,7 @@ module RedditEmailer
         def process_response!
           response.data.children.each do |json|
             story = Reddit::Story.new(json)
-            future = story.future :image_urls
-            stories << story unless future.value.empty?
+            stories << story unless story.image_urls.empty?
 
             return if stories.size == limit
           end
@@ -115,9 +111,7 @@ module RedditEmailer
           stories_html = []
 
           stories.each do |story|
-            story_html = StoryHtml.new(story)
-            future = story_html.future :generate_story_html
-            stories_html << future.value
+            stories_html << StoryHtml.new(story).generate_story_html
           end
 
           stories_html.join("\n")
