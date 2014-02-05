@@ -7,6 +7,8 @@ end
 set :base, "#{ENV['HOME']}/apps/#{config.name}"
 set :output, "#{base}/log/cron.log"
 
+env :PATH, "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
 config.email.to.each do |x|
   run_at, emails = x
   run_at = run_at.gsub(/_/, ':')
