@@ -2,3 +2,4 @@ config/config.yml
 *.sublime-project
 *.sublime-workspace
 tmp
+.rbenv-version
