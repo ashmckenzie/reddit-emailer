@@ -1,0 +1,12 @@
+table.row
+  tr
+    td.wrapper.last
+      table.twelve.columns.center
+        tr
+          td.center
+            - post.image_urls.each do |image_url|
+              a href=(post.url)
+                img.center.full-width src=(image_url)
+        tr
+          td.center
+            p.center== post.title

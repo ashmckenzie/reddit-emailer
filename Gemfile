@@ -7,11 +7,12 @@ gem 'toadhopper'
 gem 'hashie'
 gem 'mandrill-api'
 gem 'clamp'
+gem 'slim'
 gem 'whenever', require: false
 
 group :development do
   gem 'rake'
   gem 'pry'
-  gem 'pry-nav'
+  gem 'pry-debugger'
   gem 'awesome_print'
 end

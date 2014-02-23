@@ -1,24 +1,24 @@
+require 'pry'
 require File.expand_path(File.join('..', 'initialise'), __FILE__)
 
-def config
-  RedditEmailer::Config.instance
-end
-
-set :base, "#{ENV['HOME']}/apps/#{config.name}"
+set :config, RedditEmailer::Config.instance
+set :base, "#{config.deploy.base}"
 set :output, "#{base}/log/cron.log"
 
 env :PATH, "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 config.email.to.each do |x|
-  run_at, emails = x
-  run_at = run_at.gsub(/_/, ':')
 
-  set :cmd, "cd #{base} && \
-  ERRBIT_ENABLE=true APP_ENV=production /usr/local/bin/bundle exec ./bin/reddit-emailer \
-  --subreddit #{config.reddit.subreddit} \
-  --emails \"#{emails}\""
+  command = %Q{cd #{base} && \
+   ERRBIT_ENABLE="true" APP_ENV="production" /usr/local/bin/bundle exec ./bin/reddit-emailer \
+   --maximum #{x.maximum} \
+   #{x.options} \
+   --subreddit #{config.reddit.subreddit} \
+   --emails "#{x.recipients}"}
 
-  send(:every, 1.day, at: run_at) do
+  set :cmd, command
+
+  send(:every, 1.day, at: x.time) do
     command cmd
   end
 end

@@ -4,16 +4,14 @@ require 'nokogiri'
 
 module RedditEmailer
   module Reddit
-    class Story
+    class Post
+
+      attr_accessor :errors
 
       IMGUR_IMAGE_DOMAIN = 'i.imgur.com'
 
       def initialize json
         @data = json.data
-      end
-
-      def domain
-        @domain ||= data.domain
       end
 
       def url
@@ -26,9 +24,6 @@ module RedditEmailer
         if domain == IMGUR_IMAGE_DOMAIN && url.match(/\.(jpg|jpeg|gif|png)$/i)
           images = [ url ]
         else
-
-          # Lets try and extract out the imgur.com image :)
-          #
           images = []
 
           begin
@@ -47,12 +42,19 @@ module RedditEmailer
         data.title.to_s
       end
 
+      def valid?
+      end
+
       private
 
         attr_reader :data
 
         def config
           RedditEmailer::Config.instance
+        end
+
+        def domain
+          @domain ||= data.domain
         end
 
         def extract_images
