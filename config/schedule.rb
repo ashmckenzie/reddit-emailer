@@ -1,4 +1,3 @@
-require 'pry'
 require File.expand_path(File.join('..', 'initialise'), __FILE__)
 
 set :config, RedditEmailer::Config.instance
