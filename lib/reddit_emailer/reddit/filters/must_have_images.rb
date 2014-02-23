@@ -15,7 +15,7 @@ module RedditEmailer
 
           if post.image_urls.empty?
             result = false
-            messages = [ 'Does not contain images' ]
+            messages << 'Does not contain images'
           end
 
           FilterResult.new(result, messages)

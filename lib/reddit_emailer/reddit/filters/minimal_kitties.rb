@@ -15,7 +15,7 @@ module RedditEmailer
 
           if post.title.match(patterns)
             result = false
-            messages = [ 'Contains kittie references' ]
+            messages << 'Contains kittie references'
           end
 
           FilterResult.new(result, messages)
