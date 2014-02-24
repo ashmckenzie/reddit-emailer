@@ -2,7 +2,7 @@
 
 module RedditEmailer
   module Reddit
-    class FilterResult
+    class ValidationResult
 
       attr_reader :messages
 

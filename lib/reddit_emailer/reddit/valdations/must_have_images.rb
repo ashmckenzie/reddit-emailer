@@ -2,7 +2,7 @@
 
 module RedditEmailer
   module Reddit
-    module Filters
+    module Validations
       class MustHaveImages
 
         def initialize post
@@ -18,7 +18,7 @@ module RedditEmailer
             messages << 'Does not contain images'
           end
 
-          FilterResult.new(result, messages)
+          ValidationResult.new(result, messages)
         end
 
         private

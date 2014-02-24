@@ -2,12 +2,9 @@
 
 require 'logger'
 require 'clamp'
-# require 'open-uri'
 require 'hashie'
 
 require_relative '../config/initialise'
-
-include RedditEmailer
 
 Clamp do
   option "--version", :flag, "show version" do
@@ -23,33 +20,50 @@ Clamp do
   option '--subreddit', 'SUBREDDIT', 'Subreddit to trawl', required: true
   option([ '-m', '--maximum' ], 'MAXIUMUM', 'Maximum the number of images to display', default: 10) { |x| Integer(x) }
 
-  def execute
+  def logger_level
+    if $DEBUG
+      Logger::DEBUG
+    elsif $VERBOSE
+      Logger::INFO
+    else
+      Logger::ERROR
+    end
+  end
+
+  def email_list
     if dry_run?
-      email_list = []
+      []
     else
       signal_usage_error "option '--emails' is required" if emails.nil?
-      email_list = emails.split(/,/)
+      emails.split(/,/)
     end
+  end
 
-    require 'pry' if debug?
+  def validations
+    Hashie::Mash.new({ must_have_images: true, minimal_kitties: !minimal_kitties? })
+  end
 
+  def setup_logger!
     $logger = Logger.new(STDOUT)
-    $logger.level = Logger::ERROR
-    $logger.level = Logger::INFO if verbose?
-    $logger.level = Logger::DEBUG if debug?
+    $logger.level = logger_level
+  end
 
-    options = Hashie::Mash.new({ debug: !!debug?, dry_run: !!dry_run? })
-    filters = Hashie::Mash.new({ must_have_images: true, minimal_kitties: !minimal_kitties? })
+  def subreddit
+    RedditEmailer::Reddit::SubReddit.new(@subreddit, maximum, validations)
+  end
 
-    Errbit.endeavour(OpenURI::HTTPError) do |try|
-      posts = Reddit::Posts.new(subreddit, maximum, options).fetch(filters)
-      html = Reddit::Html.new(posts).generate
+  def execute
+    $DEBUG = !!debug?
+    $VERBOSE = !!verbose?
 
-      if options.dry_run?
-        Reddit::DumpHtml.new(html, subreddit, options).dump!
-      else
-        Reddit::Email.new(html, email_list, subreddit, options).send!
-      end
+    require 'pry' if $DEBUG
+
+    setup_logger!
+
+    if dry_run?
+      RedditEmailer::Presenters::Browser.new(subreddit).display!
+    else
+      RedditEmailer::Presenters::Email.new(subreddit, email_list).send!
     end
   end
 end

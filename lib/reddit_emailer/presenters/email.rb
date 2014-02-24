@@ -3,14 +3,12 @@
 require 'mandrill'
 
 module RedditEmailer
-  module Reddit
+  module Presenters
     class Email
 
-      def initialize html, email_list, subreddit, options
-        @html = html
-        @email_list = email_list
+      def initialize subreddit, email_list
         @subreddit = subreddit
-        @options = options
+        @email_list = email_list
       end
 
       def send!
@@ -19,7 +17,7 @@ module RedditEmailer
 
       private
 
-        attr_reader :html, :email_list, :subreddit, :options
+        attr_reader :email_list, :subreddit
 
         def config
           RedditEmailer::Config.instance
@@ -28,20 +26,15 @@ module RedditEmailer
         def message
           {
             to:           to,
-            subject:      subject,
+            subject:      html.title,
             from_name:    config.email.from_name,
             from_email:   config.email.from_email,
-            html:         html
+            html:         html.content
           }
         end
 
-        def subject
-          @email_subject ||= begin
-            title = "Reddit '%{subreddit}' images" % { subreddit: subreddit }
-            now = Time.now.strftime('%A %d %B %Y')
-
-            "%{title} for %{now}" % { title: title, now: now }
-          end
+        def html
+          Generators::Html.new(subreddit)
         end
 
         def to

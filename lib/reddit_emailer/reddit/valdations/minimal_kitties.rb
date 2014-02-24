@@ -2,7 +2,7 @@
 
 module RedditEmailer
   module Reddit
-    module Filters
+    module Validations
       class MinimalKitties
 
         def initialize post
@@ -18,7 +18,7 @@ module RedditEmailer
             messages << 'Contains kittie references'
           end
 
-          FilterResult.new(result, messages)
+          ValidationResult.new(result, messages)
         end
 
         private

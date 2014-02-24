@@ -4,11 +4,11 @@
 
 module RedditEmailer
   module Reddit
-    class PostFilter
+    class PostValidator
 
-      def initialize post, filters
+      def initialize post, validations
         @post = post
-        @filters = filters
+        @validations = validations
       end
 
       def valid?
@@ -21,7 +21,7 @@ module RedditEmailer
 
       private
 
-        attr_reader :post, :filters
+        attr_reader :post, :validations
 
         def filter_class filter
           filter.split('_').map { |x| x.capitalize }.join('')
@@ -29,8 +29,8 @@ module RedditEmailer
 
         def results
           @results ||= begin
-            filters.keys.map do |filter|
-              Filters.const_get(filter_class(filter)).new(post).valid?
+            validations.keys.map do |filter|
+              Validations.const_get(filter_class(filter)).new(post).valid?
             end
           end
         end
