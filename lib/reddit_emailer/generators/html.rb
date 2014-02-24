@@ -37,18 +37,18 @@ module RedditEmailer
 
         def body
           jobs = []
-          body = []
+          body = {}
 
-          subreddit.posts.each do |post|
+          subreddit.posts.each_with_index do |post, i|
             jobs << Thread.new {
               content = Hashie::Mash.new({ post: post })
-              body << Slim::Template.new('./lib/templates/shared/_post.html.slim').render(content)
+              body[i + 1] = Slim::Template.new('./lib/templates/shared/_post.html.slim').render(content)
             }
           end
 
           ThreadsWait.all_waits(*jobs)
 
-          body.join("\n")
+          body.sort.map { |x, y| y }.join("\n")
         end
     end
   end
