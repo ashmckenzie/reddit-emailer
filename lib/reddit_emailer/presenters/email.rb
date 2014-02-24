@@ -12,7 +12,7 @@ module RedditEmailer
       end
 
       def send!
-        Mandrill::API.new(config.mandrill.api_key).messages.send(message)
+        mandrill.messages.send(message)
       end
 
       private
@@ -21,6 +21,10 @@ module RedditEmailer
 
         def config
           RedditEmailer::Config.instance
+        end
+
+        def mandrill
+          Mandrill::API.new(config.mandrill.api_key)
         end
 
         def message

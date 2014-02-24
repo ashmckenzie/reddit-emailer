@@ -30,22 +30,18 @@ Clamp do
     end
   end
 
-  def email_list
-    if dry_run?
-      []
-    else
-      signal_usage_error "option '--emails' is required" if emails.nil?
-      emails.split(/,/)
-    end
+  def setup_logger!
+    $logger = Logger.new(STDOUT)
+    $logger.level = logger_level
+  end
+
+  def emails
+    signal_usage_error "option '--emails' is required" if !dry_run? && @emails.nil?
+    (@emails || '').split(/,/)
   end
 
   def validations
     Hashie::Mash.new({ must_have_images: true, minimal_kitties: !minimal_kitties? })
-  end
-
-  def setup_logger!
-    $logger = Logger.new(STDOUT)
-    $logger.level = logger_level
   end
 
   def subreddit
@@ -56,14 +52,12 @@ Clamp do
     $DEBUG = !!debug?
     $VERBOSE = !!verbose?
 
-    require 'pry' if $DEBUG
-
     setup_logger!
 
     if dry_run?
       RedditEmailer::Presenters::Browser.new(subreddit).display!
     else
-      RedditEmailer::Presenters::Email.new(subreddit, email_list).send!
+      RedditEmailer::Presenters::Email.new(subreddit, emails).send!
     end
   end
 end

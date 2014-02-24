@@ -1,9 +1,8 @@
 # coding: utf-8
 
-require 'thread'
-require 'thwait'
 require 'inline-style'
 require 'slim'
+require 'thread'
 
 module RedditEmailer
   module Generators
@@ -18,12 +17,8 @@ module RedditEmailer
       end
 
       def title
-        @title ||= begin
-          title = "Top %{maximum} Reddit '%{subreddit}' images" % { maximum: subreddit.maximum, subreddit: subreddit.name }
-          now = Time.now.strftime('%A %d %B %Y')
-
-          "%{title} for %{now}" % { title: title, now: now }
-        end
+        title = "Top %{maximum} Reddit '%{subreddit}' images" % { maximum: subreddit.maximum, subreddit: subreddit.name }
+        "%{title} for %{now}" % { title: title, now: now }
       end
 
       private
@@ -31,24 +26,16 @@ module RedditEmailer
         attr_reader :subreddit
 
         def html
-          content = Hashie::Mash.new({ body: body, title: title })
-          Slim::Template.new('./lib/templates/layout.html.slim').render(content)
+          attrs = Hashie::Mash.new({ body: body, title: title })
+          Slim::Template.new('./lib/templates/layout.html.slim').render(attrs)
+        end
+
+        def now
+          Time.now.strftime('%A %d %B %Y')
         end
 
         def body
-          jobs = []
-          body = {}
-
-          subreddit.posts.each_with_index do |post, i|
-            jobs << Thread.new {
-              content = Hashie::Mash.new({ post: post })
-              body[i + 1] = Slim::Template.new('./lib/templates/shared/_post.html.slim').render(content)
-            }
-          end
-
-          ThreadsWait.all_waits(*jobs)
-
-          body.sort.map { |x, y| y }.join("\n")
+          @body ||= Thread.new { Jobs::PostRenderRunner.new(subreddit.posts).run }.join.value
         end
     end
   end

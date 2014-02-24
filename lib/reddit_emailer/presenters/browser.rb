@@ -11,10 +11,9 @@ module RedditEmailer
       end
 
       def display!
-        filename = Tempfile.new(['reddit-emailer', '.html'])
         File.open(filename, 'w') { |f| f.write(html.content) }
         `open #{filename.path}`
-        sleep(2)
+        sleep(2)  # so the browser has enough time to render before it's removed
       end
 
       private
@@ -23,6 +22,10 @@ module RedditEmailer
 
         def html
           Generators::Html.new(subreddit)
+        end
+
+        def filename
+          @filename ||= Tempfile.new(['reddit-emailer', '.html'])
         end
     end
   end
