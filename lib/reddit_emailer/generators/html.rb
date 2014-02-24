@@ -1,5 +1,7 @@
 # coding: utf-8
 
+require 'thread'
+require 'thwait'
 require 'inline-style'
 require 'slim'
 
@@ -34,10 +36,19 @@ module RedditEmailer
         end
 
         def body
-          subreddit.posts.map do |post|
-            content = Hashie::Mash.new({ post: post })
-            Slim::Template.new('./lib/templates/shared/_post.html.slim').render(content)
-          end.join("\n")
+          jobs = []
+          body = []
+
+          subreddit.posts.each do |post|
+            jobs << Thread.new {
+              content = Hashie::Mash.new({ post: post })
+              body << Slim::Template.new('./lib/templates/shared/_post.html.slim').render(content)
+            }
+          end
+
+          ThreadsWait.all_waits(*jobs)
+
+          body.join("\n")
         end
     end
   end
