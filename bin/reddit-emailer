@@ -15,7 +15,7 @@ Clamp do
   option '--verbose', :flag, 'Enable verbose logging'
   option '--debug', :flag, 'Enable debug mode'
   option '--dry-run', :flag, "Enable dry-run (don't send email)"
-  option '--minimal-kitties', :flag, 'Minimal kitties, please.'
+  option '--title-filter-exclude', 'FILTER', 'Filter out unwanted images using their title'
   option '--emails', 'EMAILS', 'Email addresses to send to'
   option '--subreddit', 'SUBREDDIT', 'Subreddit to trawl', required: true
   option([ '-m', '--maximum' ], 'MAXIUMUM', 'Maximum the number of images to display', default: 10) { |x| Integer(x) }
@@ -40,8 +40,15 @@ Clamp do
     (@emails || '').split(/,/)
   end
 
+  def title_filter
+    @title_filter ||= @title_filter_exclude.split(/,/)
+  end
+
   def validations
-    Hashie::Mash.new({ must_have_images: true, minimal_kitties: !minimal_kitties? })
+    Hashie::Mash.new({
+      must_have_images: nil,
+      title_filter: title_filter
+    })
   end
 
   def subreddit

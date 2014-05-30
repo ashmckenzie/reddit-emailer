@@ -3,11 +3,7 @@
 module RedditEmailer
   module Reddit
     module Validations
-      class MinimalKitties
-
-        def initialize post
-          @post = post
-        end
+      class TitleFilter < Validation
 
         def valid?
           result = true
@@ -15,7 +11,7 @@ module RedditEmailer
 
           if post.title.match(patterns)
             result = false
-            messages << 'Contains kittie references'
+            messages << "Contains %s" % [ args.to_s ]
           end
 
           ValidationResult.new(result, messages)
@@ -23,14 +19,12 @@ module RedditEmailer
 
         private
 
-          attr_reader :post
-
           def patterns
-            Regexp.union([
-              /kitty/i,
-              /cat/i,
-              /kitten/i
-            ])
+            regex = args.map do |a|
+              Regexp.new(a, Regexp::IGNORECASE)
+            end
+
+            Regexp.union(regex)
           end
       end
     end
