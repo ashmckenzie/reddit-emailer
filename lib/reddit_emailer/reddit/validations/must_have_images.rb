@@ -3,11 +3,7 @@
 module RedditEmailer
   module Reddit
     module Validations
-      class MustHaveImages
-
-        def initialize post
-          @post = post
-        end
+      class MustHaveImages < Validation
 
         def valid?
           result = true
@@ -20,11 +16,6 @@ module RedditEmailer
 
           ValidationResult.new(result, messages)
         end
-
-        private
-
-          attr_reader :post
-
       end
     end
   end
