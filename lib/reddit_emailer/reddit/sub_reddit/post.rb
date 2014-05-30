@@ -20,9 +20,11 @@ module RedditEmailer
         end
 
         def image_urls
-          RedditEmailer::ImgurUrl.new(url).images.collect do |url|
+          RedditEmailer::ImageFactory.new(url).processor.images.map do |url|
             "%s/%s/%s?api_key=%s" % [ config.image_scaler.url, config.image_scaler.dimensions, CGI.escape(url), config.image_scaler.api_key ]
           end
+        rescue RedditEmailer::UnknownURL, RedditEmailer::CannotDetermineURL
+          []
         end
 
         private
