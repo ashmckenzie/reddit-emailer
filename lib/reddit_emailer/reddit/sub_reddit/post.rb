@@ -1,7 +1,5 @@
 # coding: utf-8
 
-require 'nokogiri'
-
 module RedditEmailer
   module Reddit
     class SubReddit

@@ -2,6 +2,7 @@
 
 require 'uri'
 require 'rest-client'
+require 'nokogiri'
 
 module RedditEmailer
   class ImgurUrl

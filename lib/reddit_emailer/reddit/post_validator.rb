@@ -1,5 +1,3 @@
-# posts << p unless p.image_urls.empty?
-
 # coding: utf-8
 
 module RedditEmailer
