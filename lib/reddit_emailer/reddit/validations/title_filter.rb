@@ -3,7 +3,7 @@
 module RedditEmailer
   module Reddit
     module Validations
-      class TitleFilter < Validation
+      class TitleFilter < Base
 
         def valid?
           result = true

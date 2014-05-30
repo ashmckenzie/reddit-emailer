@@ -3,7 +3,7 @@
 module RedditEmailer
   module Reddit
     module Validations
-      class MustHaveImages < Validation
+      class MustHaveImages < Base
 
         def valid?
           result = true
