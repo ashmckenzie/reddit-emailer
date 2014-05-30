@@ -26,7 +26,7 @@ module RedditEmailer
           if post_validation.valid?
             posts << post
           else
-            $logger.debug "Not including post as it's invalid - #{post_validation.messages}"
+            $logger.debug "Not including post as it's invalid - %s" % [ post_validation.messages ]
           end
 
           break if posts.count >= maximum
