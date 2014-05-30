@@ -6,16 +6,17 @@ set :output, "#{base}/log/cron.log"
 
 env :PATH, "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-config.email.to.each do |x|
+config.subreddits.each do |subreddit|
+  subreddit.schedule.each do |schedule|
+    recipients = schedule.recipients.join(', ')
 
-  recipients = x.recipients.join(', ')
+    set :cmd, %Q{cd #{base} && \
+      /usr/local/bin/bundle exec ./bin/reddit-emailer \
+      --maximum #{schedule.maximum} \
+      --subreddit "#{subreddit.name}" \
+      --title-filter-exclude "#{schedule.exclude}" \
+      --emails "#{recipients}"}
 
-  set :cmd, %Q{cd #{base} && \
-    APP_ENV="production" /usr/local/bin/bundle exec ./bin/reddit-emailer \
-    --maximum #{x.maximum} \
-    --subreddit #{config.reddit.subreddit} \
-    #{x.options} \
-    --emails "#{recipients}"}
-
-  send(:every, 1.day, at: x.time) { command(cmd) }
+    send(:every, 1.day, at: schedule.time) { command(cmd) }
+  end
 end
