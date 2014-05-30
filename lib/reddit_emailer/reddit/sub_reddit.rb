@@ -26,7 +26,7 @@ module RedditEmailer
           if post_validation.valid?
             posts << post
           else
-            $logger.debug "Not including post as it's invalid - %s" % [ post_validation.messages ]
+            $logger.debug "Not including post %s as it's invalid - %s" % [ post.url, post_validation.messages ]
           end
 
           break if posts.count >= maximum
@@ -40,7 +40,7 @@ module RedditEmailer
         attr_reader :validations
 
         def url
-          RedditEmailer::Config.instance.reddit.url % { subreddit: name }
+          RedditEmailer::Config.instance.reddit.base_url % { subreddit: name }
         end
 
         def response
