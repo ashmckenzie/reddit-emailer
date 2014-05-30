@@ -21,7 +21,7 @@ module RedditEmailer
 
         def image_urls
           RedditEmailer::ImgurUrl.new(url).images.collect do |url|
-            "#{config.image_scaler.url}/#{config.image_scaler.dimensions}/#{CGI.escape(url)}?api_key=#{config.image_scaler.api_key}"
+            "%s/%s/%s?api_key=%s" % [ config.image_scaler.url, config.image_scaler.dimensions, CGI.escape(url), config.image_scaler.api_key ]
           end
         end
 
