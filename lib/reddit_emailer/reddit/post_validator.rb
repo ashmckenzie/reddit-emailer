@@ -27,8 +27,9 @@ module RedditEmailer
 
         def results
           @results ||= begin
-            validations.keys.map do |filter|
-              Validations.const_get(filter_class(filter)).new(post).valid?
+            validations.map do |klass_key, args|
+              klass = filter_class(klass_key)
+              Validations.const_get(klass).new(post, args).valid?
             end
           end
         end
