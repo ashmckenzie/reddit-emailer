@@ -20,6 +20,8 @@ module RedditEmailer
         extract_images
       rescue SocketError => e
         $logger.error "An exception occurred: #{e.inspect}"
+        []
+      rescue => e
         raise e
       end
 
@@ -32,9 +34,9 @@ module RedditEmailer
         end
 
         def api_url
-          if m = url.match(/^http:\/\/.*imgur\.com\/(a)?\/?(\w+)/)
+          if m = url.match(/^http:\/\/.*imgur\.com\/(?:\b(a|album|gallery)(?:\/)\b)?(\w+)/)
             api_url = IMGR_API_BASE_URL
-            api_url += (m[1] == 'a') ? "/album/#{m[2]}" : "/image/#{m[2]}"
+            api_url += m[1] ? "/album/#{m[2]}" : "/image/#{m[2]}"
             "#{api_url}.xml"
           else
             raise CannotDetermineURL, 'Cannot determine API URL for %s' % [ url ]
