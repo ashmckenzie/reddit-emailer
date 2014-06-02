@@ -17,4 +17,5 @@ group :development do
   gem 'awesome_print'
   gem 'debugger-ruby_core_source', '1.3.5'
   gem 'debugger', '1.6.6'
+  gem 'git-deploy'
 end
