@@ -1,7 +1,4 @@
 #!/bin/sh
 
-echo "Uploading config.yml"
-git deploy upload config/config.yml -r deploy
-
 echo "Updating cron"
 bundle exec whenever --update-crontab

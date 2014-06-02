@@ -12,3 +12,8 @@ task :console do
 
   pry
 end
+
+desc 'Upload config.yml'
+task :upload_config do
+  system("bundle exec git deploy upload config/config.yml -r deploy") 
+end
