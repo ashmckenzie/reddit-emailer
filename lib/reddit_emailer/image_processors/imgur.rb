@@ -36,7 +36,7 @@ module RedditEmailer
         def api_url
           if m = url.match(/^http:\/\/.*imgur\.com\/(?:\b(a|album|gallery)(?:\/)\b)?(\w+)/)
             api_url = IMGR_API_BASE_URL
-            api_url += m[1] ? "/album/#{m[2]}" : "/image/#{m[2]}"
+            api_url += %w{ a album }.include?(m[1]) ? "/album/#{m[2]}" : "/image/#{m[2]}"
             "#{api_url}.xml"
           else
             raise CannotDetermineURL, 'Cannot determine API URL for %s' % [ url ]
