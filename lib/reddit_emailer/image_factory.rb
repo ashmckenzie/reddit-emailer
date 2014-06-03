@@ -15,7 +15,6 @@ module RedditEmailer
       elsif is_imgur?
         ImageProcessors::Imgur.new(url)
       else
-        binding.pry
         raise UnknownURL, 'Unknown URL %s' % [ url ]
       end
     end
