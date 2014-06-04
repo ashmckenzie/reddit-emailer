@@ -34,7 +34,7 @@ module RedditEmailer
           def config
             RedditEmailer::Config.instance
           end
-        end
       end
     end
   end
+end

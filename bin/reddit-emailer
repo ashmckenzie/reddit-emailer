@@ -41,7 +41,7 @@ Clamp do
   end
 
   def title_filter
-    @title_filter ||= @title_filter_exclude.split(/,/)
+    @title_filter ||= @title_filter_exclude ? @title_filter_exclude.split(/,/) : []
   end
 
   def validations

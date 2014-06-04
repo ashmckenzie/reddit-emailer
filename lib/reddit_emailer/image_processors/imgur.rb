@@ -18,11 +18,9 @@ module RedditEmailer
 
       def images
         extract_images
-      rescue SocketError => e
+      rescue => e
         $logger.error "An exception occurred: #{e.inspect}"
         []
-      rescue => e
-        raise e
       end
 
       private
@@ -34,9 +32,11 @@ module RedditEmailer
         end
 
         def api_url
-          if m = url.match(/^http:\/\/.*imgur\.com\/(?:\b(a|album|gallery)(?:\/)\b)?(\w+)/)
+          m = url.match(/^http:\/\/.*imgur\.com\/(?:\b(a|album|gallery)(?:\/)\b)?(\w+)/)
+
+          if m
             api_url = IMGR_API_BASE_URL
-            api_url += %w{ a album }.include?(m[1]) ? "/album/#{m[2]}" : "/image/#{m[2]}"
+            api_url += m[1] ? "/album/#{m[2]}" : "/image/#{m[2]}"
             "#{api_url}.xml"
           else
             raise CannotDetermineURL, 'Cannot determine API URL for %s' % [ url ]
@@ -44,7 +44,11 @@ module RedditEmailer
         end
 
         def extract_images
-          Nokogiri::XML(RestClient.get(api_url)).search('links/original').map { |links| links.text }.first(config.reddit.max_album_images)
+          links = Nokogiri::XML(RestClient.get(api_url)).search('links/original').map do |l|
+            l.text
+          end
+
+          links.first(config.reddit.max_album_images)
         end
     end
   end
