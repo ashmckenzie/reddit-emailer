@@ -9,6 +9,7 @@ gem 'mandrill-api'
 gem 'clamp'
 gem 'slim'
 gem 'whenever', require: false
+gem 'rollbar'
 
 group :development do
   gem 'rake'

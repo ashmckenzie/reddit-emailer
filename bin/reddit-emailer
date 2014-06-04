@@ -64,7 +64,11 @@ Clamp do
     if dry_run?
       RedditEmailer::Presenters::Browser.new(subreddit).display!
     else
-      RedditEmailer::Presenters::Email.new(subreddit, emails).send!
+      begin
+        RedditEmailer::Presenters::Email.new(subreddit, emails).send!
+      rescue Exception => e
+        Rollbar.report_exception(e)
+      end
     end
   end
 end
