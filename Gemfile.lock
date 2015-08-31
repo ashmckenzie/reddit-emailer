@@ -1,86 +1,54 @@
+GIT
+  remote: git://github.com/ashmckenzie/percheron.git
+  revision: 01ba9f5fc784e207599def81bb810a567fe8e7d9
+  branch: 0.9.0-dev
+  specs:
+    percheron (0.9.0.pre.dev)
+      clamp (~> 1.0.0)
+      docker-api (~> 1.22.0)
+      hashie (~> 3.4.0)
+      highline (~> 1.7.1)
+      liquid (~> 3.0.0)
+      metastore (~> 0.3.0)
+      naught (~> 1.0.0)
+      ruby-graphviz (~> 1.2.0)
+      semantic (~> 1.4.0)
+      terminal-table (~> 1.5.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (4.1.4)
-      i18n (~> 0.6, >= 0.6.9)
-      json (~> 1.7, >= 1.7.7)
-      minitest (~> 5.1)
-      thread_safe (~> 0.1)
-      tzinfo (~> 1.1)
-    addressable (2.3.6)
-    awesome_print (1.2.0)
-    chronic (0.10.2)
-    clamp (0.6.3)
+    byebug (5.0.0)
+      columnize (= 0.9.0)
+    clamp (1.0.0)
     coderay (1.1.0)
-    css_parser (1.3.5)
-      addressable
-    excon (0.37.0)
-    ffi (1.9.3)
-    git-deploy (0.6.1)
-      net-scp (~> 1.1.0)
-      net-ssh (~> 2.6.6)
-      thor (= 0.14.6)
-    hashie (3.1.0)
-    i18n (0.6.9)
-    inline-style (0.5.1)
-      css_parser
-      maca-fork-csspool
-      nokogiri
-    json (1.8.1)
-    maca-fork-csspool (2.0.2)
-      ffi
-    mandrill-api (1.0.52)
-      excon (>= 0.16.0, < 1.0)
-      json (>= 1.7.7, < 2.0)
+    columnize (0.9.0)
+    docker-api (1.22.3)
+      excon (>= 0.38.0)
+      json
+    excon (0.45.4)
+    hashie (3.4.2)
+    highline (1.7.3)
+    json (1.8.3)
+    liquid (3.0.6)
+    metastore (0.3.0)
     method_source (0.8.2)
-    mime-types (2.3)
-    mini_portile (0.6.0)
-    minitest (5.4.0)
-    multi_json (1.10.1)
-    net-scp (1.1.2)
-      net-ssh (>= 2.6.5)
-    net-ssh (2.6.8)
-    nokogiri (1.6.2.1)
-      mini_portile (= 0.6.0)
-    pry (0.10.0)
+    naught (1.0.0)
+    pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    rake (10.3.2)
-    rest-client (1.6.7)
-      mime-types (>= 1.16)
-    rollbar (0.13.1)
-      multi_json (~> 1.3)
-    slim (2.0.3)
-      temple (~> 0.6.6)
-      tilt (>= 1.3.3, < 2.1)
-    slop (3.5.0)
-    temple (0.6.8)
-    thor (0.14.6)
-    thread_safe (0.3.4)
-    tilt (2.0.1)
-    toadhopper (2.1)
-    tzinfo (1.2.1)
-      thread_safe (~> 0.1)
-    whenever (0.9.2)
-      activesupport (>= 2.3.4)
-      chronic (>= 0.6.3)
+    pry-byebug (3.2.0)
+      byebug (~> 5.0)
+      pry (~> 0.10)
+    ruby-graphviz (1.2.2)
+    semantic (1.4.1)
+    slop (3.6.0)
+    terminal-table (1.5.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  awesome_print
-  clamp
-  git-deploy
-  hashie
-  inline-style
-  mandrill-api
-  nokogiri
-  pry
-  rake
-  rest-client
-  rollbar
-  slim
-  toadhopper
-  whenever
+  percheron!
+  pry-byebug

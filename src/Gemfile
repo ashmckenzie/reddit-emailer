@@ -1,0 +1,19 @@
+source 'https://rubygems.org'
+
+gem 'rest-client'
+gem 'inline-style'
+gem 'nokogiri'
+gem 'toadhopper'
+gem 'hashie'
+gem 'mandrill-api'
+gem 'clamp'
+gem 'slim'
+gem 'whenever', require: false
+gem 'rollbar'
+gem 'rake'
+
+group :development do
+  gem 'pry-byebug'
+  gem 'awesome_print'
+  gem 'git-deploy'
+end

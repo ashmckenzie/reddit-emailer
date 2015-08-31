@@ -1,0 +1,6 @@
+#!/bin/bash
+
+touch ${APP_LOG_FILE} ${CRON_LOG_FILE}
+cd ${APP_HOME}
+bundle exec whenever --update-crontab
+foreman start

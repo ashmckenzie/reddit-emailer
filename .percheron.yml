@@ -1,0 +1,46 @@
+---
+# docker:
+#   host: unix:///var/run/docker.sock
+
+secrets_file: ./.secrets.yml
+
+userdata:
+  system:
+    timezone: Australia/Melbourne
+  app:
+    base: /app
+    env: production
+  reddit:
+    base_url: 'http://www.reddit.com/r/%{subreddit}.json'
+    max_album_images: 10
+  image_scaler:
+   url: 'http://image-scaler.the-rebellion.net/images'
+   dimensions: '400x400'
+  email:
+   from_name: 'Ash McKenzie'
+   from_email: 'ash@the-rebellion.net'
+
+project:
+  name: reddit-emailer
+  description: Sends out emails with Reddit images
+
+stacks:
+- name: reddit-emailer
+  description: Sends out emails with Reddit images
+  units:
+    - name: app
+      version: 1.0.0
+      dockerfile: Dockerfile
+      env:
+        - CRON_LOG_FILE=/var/log/cron.log
+        - APP_LOG_FILE=/var/log/reddit-emailer.log
+        - APP_ENV={{ userdata.app.env }}
+        - ROLLBAR_API_KEY={{ secrets.rollbar.api_key }}
+        - MANDRILL_API_KEY={{ secrets.mandrill.api_key }}
+        - IMAGE_SCALER_API_KEY={{ secrets.image_scaler.api_key }}
+        - IMAGE_SCALER_URL={{ userdata.image_scaler.url }}
+        - IMAGE_SCALER_DIMENSIONS={{ userdata.image_scaler.dimensions }}
+        - REDDIT_BASE_URL={{ userdata.reddit.base_url }}
+        - REDDIT_MAX_ALBUM_IMAGES={{ userdata.reddit.max_album_images }}
+        - EMAIL_FROM_NAME={{ userdata.email.from_name }}
+        - EMAIL_FROM_EMAIL={{ userdata.email.from_email }}

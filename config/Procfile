@@ -1,0 +1,3 @@
+crond: /usr/sbin/crond -f -l 6 -L ${CRON_LOG_FILE}
+app_log: tail -f ${APP_LOG_FILE}
+cron_log: tail -f ${CRON_LOG_FILE}
