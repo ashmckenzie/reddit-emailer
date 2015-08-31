@@ -1,7 +1,7 @@
 require File.expand_path(File.join('..', 'initialise'), __FILE__)
 
 set :config, RedditEmailer::Config.instance
-set :base, config.deploy.base
+set :base, ENV['APP_HOME']
 set :output, '/var/log/reddit-emailer.log'
 
 env :PATH, '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'

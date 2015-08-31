@@ -3,3 +3,4 @@
 .rbenv-version
 tmp
 .secrets.yml
+Dockerfile.generated.*

@@ -8,7 +8,7 @@ userdata:
   system:
     timezone: Australia/Melbourne
   app:
-    base: /app
+    home: /app
     env: production
   reddit:
     base_url: 'http://www.reddit.com/r/%{subreddit}.json'
@@ -34,6 +34,7 @@ stacks:
       env:
         - CRON_LOG_FILE=/var/log/cron.log
         - APP_LOG_FILE=/var/log/reddit-emailer.log
+        - APP_HOME={{ userdata.app.home }}
         - APP_ENV={{ userdata.app.env }}
         - ROLLBAR_API_KEY={{ secrets.rollbar.api_key }}
         - MANDRILL_API_KEY={{ secrets.mandrill.api_key }}
