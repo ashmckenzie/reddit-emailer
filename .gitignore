@@ -1,6 +1,6 @@
 *.sublime-project
 *.sublime-workspace
-.rbenv-version
 tmp
 .secrets.yml
 Dockerfile.generated.*
+.envrc

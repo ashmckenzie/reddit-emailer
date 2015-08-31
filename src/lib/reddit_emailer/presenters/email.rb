@@ -18,11 +18,11 @@ module RedditEmailer
         attr_reader :email_list, :subreddit
 
         def email_from_name
-          EMV['EMAIL_FROM_NAME']
+          ENV['EMAIL_FROM_NAME']
         end
 
         def email_from_email
-          EMV['EMAIL_FROM_EMAIL']
+          ENV['EMAIL_FROM_EMAIL']
         end
 
         def mandrill_api_key
