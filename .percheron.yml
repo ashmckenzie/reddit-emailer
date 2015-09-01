@@ -1,7 +1,4 @@
 ---
-# docker:
-#   host: unix:///var/run/docker.sock
-
 secrets_file: ./.secrets.yml
 
 userdata:
