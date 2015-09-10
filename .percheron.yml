@@ -10,8 +10,8 @@ userdata:
   reddit:
     base_url: 'http://www.reddit.com/r/%{subreddit}.json'
     max_album_images: 10
-  image_scaler:
-   url: 'http://image-proxy.the-rebellion.net/images'
+  image_proxy:
+   url: 'http://image-proxy.the-rebellion.net'
    dimensions: '400x400'
   email:
    from_name: 'Ash McKenzie'
@@ -35,8 +35,8 @@ stacks:
         - APP_ENV={{ userdata.app.env }}
         - ROLLBAR_API_KEY={{ secrets.rollbar.api_key }}
         - MANDRILL_API_KEY={{ secrets.mandrill.api_key }}
-        - IMAGE_PROXY_URL={{ userdata.image_scaler.url }}
-        - IMAGE_PROXY_DIMENSIONS={{ userdata.image_scaler.dimensions }}
+        - IMAGE_PROXY_URL={{ userdata.image_proxy.url }}
+        - IMAGE_PROXY_DIMENSIONS={{ userdata.image_proxy.dimensions }}
         - REDDIT_BASE_URL={{ userdata.reddit.base_url }}
         - REDDIT_MAX_ALBUM_IMAGES={{ userdata.reddit.max_album_images }}
         - EMAIL_FROM_NAME={{ userdata.email.from_name }}
