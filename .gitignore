@@ -4,3 +4,4 @@ tmp
 .secrets.yml
 Dockerfile.generated.*
 .envrc
+.env

@@ -28,19 +28,15 @@ module RedditEmailer
           attr_reader :data
 
           def image_scaler_url
-            ENV['IMAGE_SCALER_URL']
+            ENV['IMAGE_PROXY_URL']
           end
 
           def image_scaler_dimensions
-            ENV['IMAGE_SCALER_DIMENSIONS']
-          end
-
-          def image_scaler_api_key
-            ENV['IMAGE_SCALER_API_KEY']
+            ENV['IMAGE_PROXY_DIMENSIONS']
           end
 
           def full_url_from(url)
-            '%s/%s/%s?api_key=%s' % [ image_scaler_url, image_scaler_dimensions, CGI.escape(url), image_scaler_api_key ]
+            '%s/%s/%s' % [ image_scaler_url, image_scaler_dimensions, CGI.escape(url) ]
           end
       end
     end

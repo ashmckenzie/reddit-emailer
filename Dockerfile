@@ -8,6 +8,8 @@ ADD ./config/repositories /etc/apk/repositories
 RUN apk add --update-cache build-base libxml2-dev libxslt-dev bash openssl-dev ca-certificates \
 libffi-dev tzdata wget ruby@edge ruby-dev@edge
 
+RUN rm -rf /etc/periodic/*
+
 RUN cp /usr/share/zoneinfo/{{ userdata.system.timezone }} /etc/localtime
 
 RUN echo 'gem: --no-document' > /etc/gemrc
