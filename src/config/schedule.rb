@@ -14,6 +14,7 @@ config.subreddits.each do |subreddit|
       bundle exec ./bin/reddit-emailer \
       --maximum #{schedule.maximum} \
       --subreddit "#{subreddit.name}" \
+      --subreddit-label "#{subreddit.label}" \
       --title-filter-exclude "#{schedule.exclude}" \
       --emails "#{recipients}"}
 
