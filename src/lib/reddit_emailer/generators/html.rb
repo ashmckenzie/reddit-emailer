@@ -15,13 +15,16 @@ module RedditEmailer
       end
 
       def title
-        title = "Top %s Reddit '%s' images" % [ subreddit.maximum, subreddit.name ]
-        '%s for %s' % [ title, now ]
+        '%s for %s' % [ title_template, now ]
       end
 
       private
 
         attr_reader :subreddit
+
+        def title_template
+          "Top %s Reddit '%s' pics" % [ subreddit.maximum, subreddit.label ]
+        end
 
         def html
           attrs = Hashie::Mash.new(body: body, title: title)

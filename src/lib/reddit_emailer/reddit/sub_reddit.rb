@@ -8,10 +8,11 @@ module RedditEmailer
   module Reddit
     class SubReddit
 
-      attr_reader :name, :maximum
+      attr_reader :name, :label, :maximum
 
-      def initialize(name, maximum, validations={})
+      def initialize(name, label, maximum, validations = {})
         @name = name
+        @label = label
         @maximum = maximum
         @validations = validations
       end
@@ -39,8 +40,10 @@ module RedditEmailer
 
         attr_reader :validations
 
+
+
         def url
-          base_url % { subreddit: name }
+          base_url % [ name ]
         end
 
         def base_url

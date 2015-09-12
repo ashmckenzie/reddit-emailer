@@ -38,12 +38,15 @@ module RedditEmailer
         end
 
         def max_images
-          ENV.fetch('REDDIT_MAX_ALBUM_IMAGES', 10)
+          ENV.fetch('REDDIT_MAX_ALBUM_IMAGES', 10).to_i
         end
 
         def extract_images
-          links = Nokogiri::XML(RestClient.get(api_url)).search('links/original').map { |l| l.text }
           links.first(max_images)
+        end
+
+        def links
+          Nokogiri::XML(RestClient.get(api_url)).search('links/original').map(&:text)
         end
     end
   end

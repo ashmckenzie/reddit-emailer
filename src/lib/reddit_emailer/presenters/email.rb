@@ -36,11 +36,15 @@ module RedditEmailer
         def message
           {
             to:           to,
-            subject:      html.title,
+            subject:      subject,
             from_name:    email_from_name,
             from_email:   email_from_email,
             html:         html.content
           }
+        end
+
+        def subject
+          html.title
         end
 
         def html

@@ -4,6 +4,8 @@ require 'logger'
 require 'clamp'
 require File.expand_path(File.join('..', '..', 'config', 'initialise'), __FILE__)
 
+include RedditEmailer
+
 Clamp do
   option '--version', :flag, 'show version' do
     puts "toolbelt #{RedditEmailer::VERSION}"
@@ -14,8 +16,9 @@ Clamp do
   option '--debug', :flag, 'Enable debug mode'
   option '--dry-run', :flag, "Enable dry-run (don't send email)"
   option '--title-filter-exclude', 'FILTER', 'Filter out unwanted images using their title'
-  option '--emails', 'EMAILS', 'Email addresses to send to'
   option '--subreddit', 'SUBREDDIT', 'Subreddit to trawl', required: true
+  option '--subreddit-label', 'SUBREDDIT_LABEL', 'Subreddit label'
+  option '--emails', 'EMAILS', 'Email addresses to send to'
   option([ '-m', '--maximum' ], 'MAXIUMUM', 'Maximum the number of images to display', default: 10) { |x| Integer(x) }
 
   def logger_level
@@ -47,20 +50,28 @@ Clamp do
   end
 
   def subreddit
-    RedditEmailer::Reddit::SubReddit.new(@subreddit, maximum, validations)
+    Reddit::SubReddit.new(@subreddit, subreddit_label, maximum, validations)
+  end
+
+  def subreddit_label
+    @subreddit_label || @subreddit
+  end
+
+  def preflight
+    $DEBUG   = debug? ? true : false
+    $VERBOSE = verbose? ? true : false
+
+    setup_logger!
   end
 
   def execute
-    $DEBUG = !!debug?
-    $VERBOSE = !!verbose?
-
-    setup_logger!
+    preflight
 
     if dry_run?
-      RedditEmailer::Presenters::Browser.new(subreddit).display!
+      Presenters::Browser.new(subreddit).display!
     else
       begin
-        RedditEmailer::Presenters::Email.new(subreddit, emails).send!
+        Presenters::Email.new(subreddit, emails).send!
       rescue => e
         Rollbar.log(e)
       end
