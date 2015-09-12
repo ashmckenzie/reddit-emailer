@@ -23,20 +23,28 @@ module RedditEmailer
           []
         end
 
+        def reddit_link
+          '%s%s' % [ reddit_base_url, data.permalink ]
+        end
+
         private
 
           attr_reader :data
 
-          def image_scaler_url
+          def reddit_base_url
+            ENV['REDDIT_BASE_URL']
+          end
+
+          def image_proxy_url
             ENV['IMAGE_PROXY_URL']
           end
 
-          def image_scaler_dimensions
+          def image_proxy_dimensions
             ENV['IMAGE_PROXY_DIMENSIONS']
           end
 
           def full_url_from(url)
-            '%s/%s/%s' % [ image_scaler_url, image_scaler_dimensions, CGI.escape(url) ]
+            '%s/%s/%s' % [ image_proxy_url, image_proxy_dimensions, CGI.escape(url) ]
           end
       end
     end

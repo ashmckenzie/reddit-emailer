@@ -8,7 +8,7 @@ userdata:
     home: /app
     env: production
   reddit:
-    base_url: 'http://www.reddit.com/r/%{subreddit}.json'
+    base_url: 'http://www.reddit.com'
     max_album_images: 10
   image_proxy:
    url: 'http://image-proxy.the-rebellion.net'

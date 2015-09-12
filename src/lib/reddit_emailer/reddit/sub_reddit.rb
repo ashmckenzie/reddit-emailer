@@ -40,14 +40,12 @@ module RedditEmailer
 
         attr_reader :validations
 
-
-
         def url
           base_url % [ name ]
         end
 
         def base_url
-          ENV['REDDIT_BASE_URL']
+          '%s/r/%%s.json' % [ ENV['REDDIT_BASE_URL'] ]
         end
 
         def response
