@@ -12,14 +12,11 @@ module RedditEmailer
 
         def run
           jobs = {}
-
           posts.each_with_index do |post, i|
             jobs[i] = Thread.new { Jobs::PostRender.new(post).render }
           end
-
           ThreadsWait.all_waits(jobs.values)
-
-          jobs.values.map { |x| x.value }.join("\n")
+          jobs.values.map(&:value).join("\n")
         end
 
         private

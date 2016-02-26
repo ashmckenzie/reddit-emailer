@@ -6,6 +6,8 @@ require File.expand_path(File.join('..', '..', 'config', 'initialise'), __FILE__
 
 include RedditEmailer
 
+SUB_REDDIT_DEFAULTS = { max: 1, exclude: '' }
+
 Clamp do
   option '--version', :flag, 'show version' do
     puts "toolbelt #{RedditEmailer::VERSION}"
@@ -14,67 +16,67 @@ Clamp do
 
   option '--verbose', :flag, 'Enable verbose logging'
   option '--debug', :flag, 'Enable debug mode'
-  option '--dry-run', :flag, "Enable dry-run (don't send email)"
-  option '--title-filter-exclude', 'FILTER', 'Filter out unwanted images using their title'
-  option '--subreddit', 'SUBREDDIT', 'Subreddit to trawl', required: true
-  option '--subreddit-label', 'SUBREDDIT_LABEL', 'Subreddit label'
+  option '--sub-reddit', 'SUB_REDDIT', 'Subreddit to trawl', required: true, multivalued: true
   option '--emails', 'EMAILS', 'Email addresses to send to'
-  option([ '-m', '--maximum' ], 'MAXIUMUM', 'Maximum the number of images to display', default: 10) { |x| Integer(x) }
-
-  def logger_level
-    if $DEBUG
-      Logger::DEBUG
-    elsif $VERBOSE
-      Logger::INFO
-    else
-      Logger::ERROR
-    end
-  end
-
-  def setup_logger!
-    $logger = Logger.new(STDOUT)
-    $logger.level = logger_level
-  end
-
-  def emails
-    signal_usage_error "option '--emails' is required" if !dry_run? && @emails.nil?
-    (@emails || '').split(/,/)
-  end
-
-  def title_filter
-    @title_filter ||= @title_filter_exclude ? @title_filter_exclude.split(/,/) : []
-  end
-
-  def validations
-    Hashie::Mash.new(must_have_images: nil, title_filter: title_filter)
-  end
-
-  def subreddit
-    Reddit::SubReddit.new(@subreddit, subreddit_label, maximum, validations)
-  end
-
-  def subreddit_label
-    @subreddit_label || @subreddit
-  end
-
-  def preflight
-    $DEBUG   = debug? ? true : false
-    $VERBOSE = verbose? ? true : false
-
-    setup_logger!
-  end
 
   def execute
-    preflight
+    preflight!
+    emails? ? send_email : show_in_browser
+  end
 
-    if dry_run?
-      Presenters::Browser.new(subreddit).display!
-    else
-      begin
-        Presenters::Email.new(subreddit, emails).send!
-      rescue => e
-        Rollbar.log(e)
+  private
+
+    def logger_level
+      if $DEBUG
+        Logger::DEBUG
+      elsif $VERBOSE
+        Logger::INFO
+      else
+        Logger::ERROR
       end
     end
-  end
+
+    def setup_logger!
+      $logger = Logger.new(STDOUT)
+      $logger.level = logger_level
+    end
+
+    def emails
+      (@emails || '').split(/,/)
+    end
+
+    def emails?
+      !emails.empty?
+    end
+
+    def validation_for(title_filter)
+      Hashie::Mash.new(must_have_images: nil, title_filter: title_filter)
+    end
+
+    def sub_reddit_options(str)
+      sub_reddit_raw = JSON.parse(str, symbolize_names: true)
+      sub_reddit = SUB_REDDIT_DEFAULTS.merge(sub_reddit_raw)
+      sub_reddit[:exclude] = sub_reddit[:exclude].split(/\s*,\s*/)
+      sub_reddit
+    end
+
+    def sub_reddits
+      @sub_reddit_list.map { |str| Reddit::SubReddit.new(sub_reddit_options(str)) }
+    end
+
+    def preflight!
+      $DEBUG   = debug? ? true : false
+      $VERBOSE = verbose? ? true : false
+      setup_logger!
+    end
+
+    def show_in_browser
+      Presenters::Browser.new(sub_reddits).display!
+    end
+
+    def send_email
+      Presenters::Email.new(sub_reddits, emails).send!
+    rescue => e
+      Rollbar.log(e)
+    end
 end

@@ -1,0 +1,61 @@
+---
+emails:
+  - label: 'Aww + Food'
+    subreddits:
+      - name: 'aww'
+        label: 'Aww'
+        exclude: 'kitty,cat,kitten'
+      - name: 'FoodPorn'
+        label: 'Food'
+    schedule:
+      - time: '6:55am'
+        recipients:
+          - ash@the-rebellion.net
+          - alisonmckenzie79@gmail.com
+
+  - label: 'Aww'
+    schedule:
+      - time: '6:55am'
+        maximum: 15
+        exclude: 'kitty,cat,kitten'
+        recipients:
+          - ash@the-rebellion.net
+          - alisonmckenzie79@gmail.com
+      - time: '7:00am'
+        maximum: 10
+        recipients:
+          - sarah@hooroo.com
+          - gabe@rotbart.net
+          - brendanspinks@gmail.com
+          - locusdelicti@gmail.com
+          - metcalfe.phil@gmail.com
+          - stuart.liston@gmail.com
+          - carine@hooroo.com
+          - jess@hooroo.com
+          - robm@hooroo.com
+          - steph.h.lock@gmail.com
+          - esavage@zendesk.com
+          - chausler@zendesk.com
+          - Lynda.McArdle@beyondblue.org.au
+          - jacob@hooroo.com
+      - time: '7:30am'
+        maximum: 10
+        recipients:
+          - nikitajoliver@gmail.com
+
+  - label: 'Food'
+    subreddits:
+      - name: 'FoodPorn'
+        label: 'Food'
+    schedule:
+      - time: '11:45am'
+        recipients:
+          - locusdelicti@gmail.com
+      - time: '3:30pm'
+        recipients:
+          - alisonmckenzie79@gmail.com
+          - locusdelicti@gmail.com
+          - stuart.liston@gmail.com
+          - metcalfe.phil@gmail.com
+          - esavage@zendesk.com
+          - chausler@zendesk.com

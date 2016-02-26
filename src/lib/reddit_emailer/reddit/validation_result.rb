@@ -1,10 +1,9 @@
 module RedditEmailer
   module Reddit
     class ValidationResult
-
       attr_reader :messages
 
-      def initialize result, messages=[]
+      def initialize(result, messages = [])
         @result = result
         @messages = messages
       end

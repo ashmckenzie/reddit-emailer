@@ -8,22 +8,17 @@ module RedditEmailer
         def valid?
           result = true
           messages = []
-
           if post.title.match(patterns)
             result = false
             messages << "Contains %s" % [ args.to_s ]
           end
-
           ValidationResult.new(result, messages)
         end
 
         private
 
           def patterns
-            regex = args.map do |a|
-              Regexp.new(a, Regexp::IGNORECASE)
-            end
-
+            regex = args.map { |a| Regexp.new(a, Regexp::IGNORECASE) }
             Regexp.union(regex)
           end
       end

@@ -15,5 +15,4 @@ gem 'rake'
 group :development do
   gem 'pry-byebug'
   gem 'awesome_print'
-  gem 'git-deploy'
 end

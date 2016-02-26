@@ -6,18 +6,24 @@ set :output, '/var/log/reddit-emailer.log'
 
 env :PATH, '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
-config.subreddits.each do |subreddit|
-  subreddit.schedule.each do |schedule|
-    recipients = schedule.recipients.join(', ')
+require 'pry-byebug'
 
-    set :cmd, %Q{cd #{base} && \
-      bundle exec ./bin/reddit-emailer \
-      --maximum #{schedule.maximum} \
-      --subreddit "#{subreddit.name}" \
-      --subreddit-label "#{subreddit.label}" \
-      --title-filter-exclude "#{schedule.exclude}" \
-      --emails "#{recipients}"}
-
-    send(:every, 1.day, at: schedule.time) { command(cmd) }
-  end
+config.emails.each do |email|
+  binding.pry
 end
+
+# config.subreddits.each do |subreddit|
+#   subreddit.schedule.each do |schedule|
+#     recipients = schedule.recipients.join(', ')
+#
+#     set :cmd, %(cd #{base} && \
+#       bundle exec ./bin/reddit-emailer \
+#       --maximum #{schedule.maximum} \
+#       --subreddit "#{subreddit.name}" \
+#       --subreddit-label "#{subreddit.label}" \
+#       --title-filter-exclude "#{schedule.exclude}" \
+#       --emails "#{recipients}")
+#
+#     send(:every, 1.day, at: schedule.time) { command(cmd) }
+#   end
+# end

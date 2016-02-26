@@ -6,8 +6,8 @@ module RedditEmailer
   module Generators
     class HTML
 
-      def initialize(subreddit)
-        @subreddit = subreddit
+      def initialize(sub_reddits)
+        @sub_reddits = sub_reddits
       end
 
       def content
@@ -20,23 +20,36 @@ module RedditEmailer
 
       private
 
-        attr_reader :subreddit
+        attr_reader :sub_reddits
 
         def title_template
-          "Top %s Reddit '%s' pics" % [ subreddit.maximum, subreddit.label ]
+          "Reddit '%s' pics" % [ sub_reddits_label ]
+        end
+
+        def sub_reddits_label
+          sub_reddits.map(&:label).join(', ')
         end
 
         def html
-          attrs = Hashie::Mash.new(body: body, title: title)
-          Slim::Template.new('./lib/templates/layout.html.slim').render(attrs)
+          Slim::Template.new('./lib/templates/layout.html.slim').render(layout_attrs)
+        end
+
+        def layout_attrs
+          Hashie::Mash.new(body: body, title: title)
         end
 
         def now
           Time.now.strftime('%A %d %B %Y')
         end
 
+        def sub_reddit_posts
+          @sub_reddit_posts ||= sub_reddits.map(&:posts)
+        end
+
         def body
-          @body ||= Thread.new { Jobs::PostRenderRunner.new(subreddit.posts).run }.join.value
+          @body ||= begin
+            sub_reddit_posts.map { |posts| Jobs::PostRenderRunner.new(posts).run }
+          end
         end
     end
   end

@@ -4,8 +4,8 @@ module RedditEmailer
   module Presenters
     class Browser
 
-      def initialize(subreddit)
-        @subreddit = subreddit
+      def initialize(sub_reddits)
+        @sub_reddits = sub_reddits
       end
 
       def display!
@@ -16,10 +16,10 @@ module RedditEmailer
 
       private
 
-        attr_reader :subreddit
+        attr_reader :sub_reddits
 
         def html
-          Generators::HTML.new(subreddit)
+          Generators::HTML.new(sub_reddits)
         end
 
         def filename

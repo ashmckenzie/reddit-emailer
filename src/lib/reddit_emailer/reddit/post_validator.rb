@@ -12,7 +12,7 @@ module RedditEmailer
       end
 
       def messages
-        @messages ||= results.map { |r| r.messages }.flatten
+        @messages ||= results.map(&:messages).flatten
       end
 
       private
@@ -20,7 +20,7 @@ module RedditEmailer
         attr_reader :post, :validations
 
         def filter_class(filter)
-          filter.split('_').map { |x| x.capitalize }.join('')
+          filter.split('_').map(&:capitalize).join('')
         end
 
         def results

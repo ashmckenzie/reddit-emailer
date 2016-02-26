@@ -2,7 +2,6 @@ module RedditEmailer
   module Reddit
     class SubReddit
       class Post
-
         attr_accessor :errors
 
         def initialize(json)

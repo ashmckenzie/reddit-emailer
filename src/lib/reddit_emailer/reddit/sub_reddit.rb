@@ -8,37 +8,42 @@ module RedditEmailer
   module Reddit
     class SubReddit
 
-      attr_reader :name, :label, :maximum
+      def initialize(options)
+        @options = options
+      end
 
-      def initialize(name, label, maximum, validations = {})
-        @name = name
-        @label = label
-        @maximum = maximum
-        @validations = validations
+      def name
+        options[:name]
+      end
+
+      def label
+        options[:label]
+      end
+
+      def maximum
+        options[:maximum]
       end
 
       def posts
-        posts = []
-
-        response.data.children.each do |p|
+        raw.each_with_object([]) do |p, all|
           post = Post.new(p)
           post_validation = PostValidator.new(post, validations)
-
           if post_validation.valid?
-            posts << post
+            all << post
+            break if all.count >= maximum
           else
             $logger.debug "Not including post %s as it's invalid - %s" % [ post.url, post_validation.messages ]
           end
-
-          break if posts.count >= maximum
         end
-
-        posts
       end
 
       private
 
-        attr_reader :validations
+        attr_reader :options
+
+        def validations
+          options[:exclude]
+        end
 
         def url
           base_url % [ name ]
@@ -48,13 +53,16 @@ module RedditEmailer
           '%s/r/%%s.json' % [ ENV['REDDIT_BASE_URL'] ]
         end
 
+        def raw
+          @raw ||= response.data.children
+        end
+
         def response
           Hashie::Mash.new(fetch)
         end
 
         def fetch
-          headers = { 'Cache-Control' => 'no-cache' }
-          JSON.parse(RestClient.get(url, headers))
+          JSON.parse(RestClient.get(url, 'Cache-Control' => 'no-cache'))
         end
     end
   end
