@@ -5,12 +5,14 @@ gem 'inline-style'
 gem 'nokogiri'
 gem 'toadhopper'
 gem 'hashie'
-gem 'mandrill-api'
 gem 'clamp'
 gem 'slim'
 gem 'whenever', require: false
 gem 'rollbar'
 gem 'rake'
+
+gem 'mandrill-api'
+gem 'sparkpost'
 
 group :development do
   gem 'pry-byebug'
