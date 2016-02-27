@@ -71,7 +71,7 @@ Clamp do
       Presenters::Browser.new(subreddit).display!
     else
       begin
-        Presenters::Email.new(subreddit, emails).send!
+        Presenters::EmailMandrill.new(subreddit, emails).send!
       rescue => e
         Rollbar.log(e)
       end

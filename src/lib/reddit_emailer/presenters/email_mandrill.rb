@@ -2,7 +2,7 @@ require 'mandrill'
 
 module RedditEmailer
   module Presenters
-    class Email
+    class EmailMandrill
 
       def initialize(subreddit, email_list)
         @subreddit = subreddit
