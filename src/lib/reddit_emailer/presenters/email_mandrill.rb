@@ -25,12 +25,12 @@ module RedditEmailer
           ENV['EMAIL_FROM_EMAIL']
         end
 
-        def mandrill_api_key
+        def api_key
           ENV['MANDRILL_API_KEY']
         end
 
         def mandrill
-          Mandrill::API.new(mandrill_api_key)
+          Mandrill::API.new(api_key)
         end
 
         def message
@@ -39,12 +39,16 @@ module RedditEmailer
             subject:      subject,
             from_name:    email_from_name,
             from_email:   email_from_email,
-            html:         html.content
+            html:         content
           }
         end
 
         def subject
           html.title
+        end
+
+        def content
+          html.content
         end
 
         def html
