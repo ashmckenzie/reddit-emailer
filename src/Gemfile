@@ -12,7 +12,7 @@ gem 'rollbar'
 gem 'rake'
 
 gem 'mandrill-api'
-gem 'sparkpost'
+gem 'sparkpost', github: 'SparkPost/ruby-sparkpost'
 
 group :development do
   gem 'pry-byebug'

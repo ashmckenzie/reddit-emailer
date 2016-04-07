@@ -66,12 +66,12 @@ Clamp do
 
   def execute
     preflight
-
     if dry_run?
       Presenters::Browser.new(subreddit).display!
     else
       begin
-        Presenters::EmailMandrill.new(subreddit, emails).send!
+        # Presenters::EmailMandrill.new(subreddit, emails).send!
+        Presenters::EmailSparkPost.new(subreddit, emails).send!
       rescue => e
         Rollbar.log(e)
       end

@@ -35,6 +35,7 @@ stacks:
         - APP_ENV={{ userdata.app.env }}
         - ROLLBAR_API_KEY={{ secrets.rollbar.api_key }}
         - MANDRILL_API_KEY={{ secrets.mandrill.api_key }}
+        - SPARK_POST_API_KEY={{ secrets.spark_post.api_key }}
         - IMAGE_PROXY_URL={{ userdata.image_proxy.url }}
         - IMAGE_PROXY_DIMENSIONS={{ userdata.image_proxy.dimensions }}
         - REDDIT_BASE_URL={{ userdata.reddit.base_url }}

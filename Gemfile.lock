@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/ashmckenzie/percheron.git
-  revision: da25b05e861153f2be9899bdcc84d1068dd48493
+  revision: eb89f3472d898507e4c94b520f408f94a95f86de
   branch: 0.9.0-dev
   specs:
     percheron (0.9.0.pre.dev)
@@ -18,13 +18,13 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    byebug (8.2.2)
+    byebug (8.2.3)
     clamp (1.0.0)
     coderay (1.1.1)
-    docker-api (1.26.2)
+    docker-api (1.28.0)
       excon (>= 0.38.0)
       json
-    excon (0.46.0)
+    excon (0.49.0)
     hashie (3.4.3)
     highline (1.7.8)
     json (1.8.3)
