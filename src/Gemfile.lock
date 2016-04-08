@@ -92,7 +92,6 @@ DEPENDENCIES
   hashie
   inline-style
   mandrill-api
-  nokogiri
   pry-byebug
   rake
   rest-client

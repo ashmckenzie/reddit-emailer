@@ -1,10 +1,7 @@
-
-
 module RedditEmailer
   module ImageProcessors
     class Plain
-
-      def initialize url
+      def initialize(url)
         @url = url
       end
 

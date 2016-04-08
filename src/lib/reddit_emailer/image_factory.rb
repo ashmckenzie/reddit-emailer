@@ -14,7 +14,7 @@ module RedditEmailer
       if plain?
         ImageProcessors::Plain.new(url)
       elsif imgur?
-        ImageProcessors::Imgur.new(url)
+        ImageProcessors::Imgur::Main.new(url)
       else
         fail UnknownURL, 'Unknown URL %s' % [ url ]
       end
@@ -29,7 +29,7 @@ module RedditEmailer
       end
 
       def imgur?
-        [ ImageProcessors::Imgur::IMGUR_DOMAIN, ImageProcessors::Imgur::IMGUR_IMAGE_DOMAIN ].include?(URI.parse(url).hostname)
+        [ ImageProcessors::Imgur::DOMAIN, ImageProcessors::Imgur::IMAGE_DOMAIN ].include?(URI.parse(url).hostname)
       end
   end
 end

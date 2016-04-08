@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rest-client'
 gem 'inline-style'
-gem 'nokogiri'
 gem 'toadhopper'
 gem 'hashie'
 gem 'clamp'

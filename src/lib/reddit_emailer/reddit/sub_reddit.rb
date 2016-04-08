@@ -18,22 +18,16 @@ module RedditEmailer
       end
 
       def posts
-        posts = []
-
-        response.data.children.each do |p|
-          post = Post.new(p)
-          post_validation = PostValidator.new(post, validations)
-
-          if post_validation.valid?
-            posts << post
-          else
-            $logger.debug "Not including post %s as it's invalid - %s" % [ post.url, post_validation.messages ]
+        raw_posts.each_with_object([]) do |raw_post, all|
+          post = Post.new(raw_post)
+          post_validator = PostValidator.new(post, validations)
+          unless post_validator.valid?
+            $logger.debug "Not including post %s as it's invalid - %s" % [ post.url, post_validator.messages ]
+            next
           end
-
-          break if posts.count >= maximum
+          all << post
+          return all if all.count >= maximum
         end
-
-        posts
       end
 
       private
@@ -52,9 +46,16 @@ module RedditEmailer
           Hashie::Mash.new(fetch)
         end
 
+        def headers
+          { 'Cache-Control' => 'no-cache' }
+        end
+
         def fetch
-          headers = { 'Cache-Control' => 'no-cache' }
           JSON.parse(RestClient.get(url, headers))
+        end
+
+        def raw_posts
+          response.data.children
         end
     end
   end
