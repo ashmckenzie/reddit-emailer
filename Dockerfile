@@ -13,6 +13,7 @@ RUN cp /usr/share/zoneinfo/{{ userdata.system.timezone }} /etc/localtime
 
 RUN echo 'gem: --no-document' > /etc/gemrc
 RUN gem install bundler foreman io-console
+RUN bundle config build.nokogiri "--use-system-libraries"
 
 RUN mkdir -p ${APP_HOME}
 
